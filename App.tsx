@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { useFonts } from "expo-font";
 
 interface TimeState {
   hours: number;
@@ -9,6 +10,9 @@ interface TimeState {
 }
 
 export default function App() {
+  const [loaded, error] = useFonts({
+    "Open-24-Display": require("./src/assets/fonts/Open 24 Display St.ttf"),
+  });
   const [time, setTime] = useState<TimeState>({
     hours: 0,
     minutes: 0,
@@ -35,8 +39,10 @@ export default function App() {
     <View style={styles.container}>
       <Text style={styles.nameText}>Bilal Şen</Text>
       <View style={styles.clockContainer}>
-        <Text style={styles.timerText}>{formatTime(time.hours)}:</Text>
-        <Text style={styles.timerText}>{formatTime(time.minutes)}:</Text>
+        <Text style={styles.timerText}>{formatTime(time.hours)}</Text>
+        <Text style={[styles.timerText, { minWidth: "auto" }]}>:</Text>
+        <Text style={styles.timerText}>{formatTime(time.minutes)}</Text>
+        <Text style={[styles.timerText, { minWidth: "auto" }]}>:</Text>
         <Text style={styles.timerText}>{formatTime(time.seconds)}</Text>
       </View>
       <StatusBar style="auto" />
@@ -50,16 +56,22 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    gap: 10,
   },
   clockContainer: {
     flexDirection: "row",
+    alignItems: "center",
   },
   timerText: {
-    fontSize: 20,
+    fontSize: 40,
+    minWidth: 80,
+    minHeight: 80,
     fontWeight: "500",
     color: "#fff",
     backgroundColor: "#000",
-    borderRadius: 10,
+    borderRadius: 5,
+    fontFamily: "Open-24-Display",
+    textAlign: "center",
     padding: 10,
   },
   nameText: {
