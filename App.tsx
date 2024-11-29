@@ -57,5 +57,9 @@ const styles = StyleSheet.create({
   timerText: {
     fontSize: 20,
     fontWeight: "500",
+    color: "#fff",
+    backgroundColor: "#000",
+    borderRadius: 10,
+    padding: 10,
   },
 });
