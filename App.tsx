@@ -33,7 +33,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text>Bilal Şen</Text>
+      <Text style={styles.nameText}>Bilal Şen</Text>
       <View style={styles.clockContainer}>
         <Text style={styles.timerText}>{formatTime(time.hours)}:</Text>
         <Text style={styles.timerText}>{formatTime(time.minutes)}:</Text>
@@ -61,5 +61,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#000",
     borderRadius: 10,
     padding: 10,
+  },
+  nameText: {
+    fontSize: 20,
+    fontWeight: "500",
   },
 });
