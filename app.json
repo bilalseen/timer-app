@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.bilalseen.staj_hafta_1_app"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -28,9 +29,14 @@
       [
         "expo-font",
         {
-          "fonts": ["./src/assets/fonts/TurretRoad-ExtraBold.ttf"]
+          "fonts": ["./src/assets/fonts/Open 24 Display St.ttf"]
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "fe4d31cd-2edb-41ff-ba2d-0b2146c1f0be"
+      }
+    }
   }
 }
