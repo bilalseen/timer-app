@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "staj_hafta_1_app",
-    "slug": "staj_hafta_1_app",
+    "name": "Timora",
+    "slug": "timora-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./src/assets/icon/timer-app-icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
