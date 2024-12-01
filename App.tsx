@@ -13,10 +13,11 @@ export default function App() {
   const [loaded, error] = useFonts({
     "Open-24-Display": require("./src/assets/fonts/Open 24 Display St.ttf"),
   });
+  const date = new Date();
   const [time, setTime] = useState<TimeState>({
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
+    hours: date.getHours(),
+    minutes: date.getMinutes(),
+    seconds: date.getSeconds(),
   });
 
   const formatTime = (value: number): string =>
