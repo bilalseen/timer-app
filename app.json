@@ -1,14 +1,14 @@
 {
   "expo": {
     "name": "Timora",
-    "slug": "timora-app",
+    "slug": "staj_hafta_1_app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/icon/timer-app-icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./src/assets/icon/timer-app-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
