@@ -4,11 +4,11 @@
     "slug": "staj_hafta_1_app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/icon/timora-app-icon.png",
+    "icon": "./src/assets/icon/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./src/assets/icon/timora-app-icon.png",
+      "image": "./src/assets/icon/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/icon/timora-app-icon.png",
+        "foregroundImage": "./src/assets/icon/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.bilalseen.staj_hafta_1_app"
