@@ -9,10 +9,11 @@ interface TimeState {
   seconds: number;
 }
 
-export default function App() {
+export default function Timer() {
   const [loaded, error] = useFonts({
-    "Open-24-Display": require("./src/assets/fonts/Open 24 Display St.ttf"),
+    "Open-24-Display": require("../assets/fonts/Open 24 Display St.ttf"),
   });
+
   const date = new Date();
   const [time, setTime] = useState<TimeState>({
     hours: date.getHours(),
