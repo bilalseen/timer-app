@@ -1,16 +1,23 @@
 import { View, Text, StyleSheet, StatusBar, FlatList } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import Header from "../../components/Header";
 import { useFonts } from "expo-font";
 import Colors from "../../theme/colors";
 import CategoryList from "../../components/CategoryList";
 import NoteCard from "../../components/NoteCard";
 import FloatingActionButton from "../../components/FloatingActionButton";
+import AddNoteModal from "../../components/Modals/AddNoteModal";
 
 const NoteList = () => {
   const [loaded, error] = useFonts({
     "Satoshi-Regular": require("../../assets/fonts/Satoshi-Regular.otf"),
   });
+
+  const [addNoteModalVisible, setAddNoteModalVisible] = useState(false);
+
+  const toggleAddModal = () => {
+    setAddNoteModalVisible(!addNoteModalVisible);
+  };
 
   const notesExample = [
     {
@@ -49,7 +56,11 @@ const NoteList = () => {
           />
         )}
       />
-      <FloatingActionButton />
+      <AddNoteModal
+        addNoteModalVisible={addNoteModalVisible}
+        toggleAddModal={toggleAddModal}
+      />
+      <FloatingActionButton toggleAddModal={toggleAddModal} />
     </View>
   );
 };
