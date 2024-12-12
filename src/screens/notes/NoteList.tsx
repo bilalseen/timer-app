@@ -1,10 +1,17 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, StatusBar } from "react-native";
 import React from "react";
+import Header from "../../components/Header";
+import { useFonts } from "expo-font";
+import Colors from "../../theme/colors";
 
 const NoteList = () => {
+  const [loaded, error] = useFonts({
+    "Satoshi-Regular": require("../../assets/fonts/Satoshi-Regular.otf"),
+  });
   return (
     <View style={styles.container}>
-      <Text>NoteList</Text>
+      <StatusBar barStyle={"default"} />
+      <Header />
     </View>
   );
 };
@@ -12,8 +19,8 @@ const NoteList = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: Colors.background,
+    paddingHorizontal: 10,
   },
 });
 
