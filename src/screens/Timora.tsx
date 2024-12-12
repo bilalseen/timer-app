@@ -11,7 +11,7 @@ interface TimeState {
 
 export default function App() {
   const [loaded, error] = useFonts({
-    "Open-24-Display": require("./src/assets/fonts/Open 24 Display St.ttf"),
+    "Open-24-Display": require("../assets/fonts/Open 24 Display St.ttf"),
   });
   const date = new Date();
   const [time, setTime] = useState<TimeState>({
