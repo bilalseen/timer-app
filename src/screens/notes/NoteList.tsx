@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.backgroundPrimary,
     paddingHorizontal: 10,
+    paddingTop: 20,
   },
 });
 
