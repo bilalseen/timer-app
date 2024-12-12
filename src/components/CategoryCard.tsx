@@ -20,7 +20,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ title, count }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.surface,
+    backgroundColor: Colors.backgroundSecondary,
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderRadius: 50,
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     color: Colors.textPrimary,
   },
   countContainer: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.backgroundNeutral,
     width: 30,
     height: 30,
     alignItems: "center",
