@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, StatusBar } from "react-native";
+import { View, StyleSheet, StatusBar } from "react-native";
 import React from "react";
 import Header from "../../components/Header";
 import { useFonts } from "expo-font";
@@ -21,7 +21,7 @@ const NoteList = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.backgroundPrimary,
     paddingHorizontal: 10,
   },
 });
