@@ -3,6 +3,8 @@ import React from "react";
 import Header from "../../components/Header";
 import { useFonts } from "expo-font";
 import Colors from "../../theme/colors";
+import CategoryCard from "../../components/CategoryCard";
+import CategoryList from "../../components/CategoryList";
 
 const NoteList = () => {
   const [loaded, error] = useFonts({
@@ -12,6 +14,7 @@ const NoteList = () => {
     <View style={styles.container}>
       <StatusBar barStyle={"default"} />
       <Header />
+      <CategoryList />
     </View>
   );
 };
