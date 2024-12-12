@@ -3,7 +3,6 @@ import React from "react";
 
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Colors from "../theme/colors";
-import { HoldItem } from "react-native-hold-menu";
 
 interface NoteCardProps {
   title: string;
@@ -12,37 +11,23 @@ interface NoteCardProps {
 }
 
 const NoteCard: React.FC<NoteCardProps> = ({ title, content, date }) => {
-  const MenuItems = [
-    { text: "Reply", onPress: () => {} },
-    { text: "Edit", onPress: () => {} },
-    { text: "Delete", onPress: () => {} },
-  ];
   return (
-    <HoldItem
-      items={[
-        { text: "Actions", isTitle: true, onPress: () => {} },
-        { text: "Reply", onPress: () => {} },
-        { text: "Edit", onPress: () => {} },
-        { text: "Delete", onPress: () => {} },
-      ]}
-    >
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.titleText}>{title}</Text>
-          <TouchableOpacity style={styles.moreButton}>
-            <MaterialIcons
-              name="more-vert"
-              size={24}
-              color={Colors.textPrimary}
-            />
-          </TouchableOpacity>
-        </View>
-        <Text numberOfLines={3} style={styles.contentText}>
-          {content}
-        </Text>
-        <Text style={styles.datetText}>{date}</Text>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.titleText}>{title}</Text>
+        <TouchableOpacity style={styles.moreButton}>
+          <MaterialIcons
+            name="more-vert"
+            size={24}
+            color={Colors.textPrimary}
+          />
+        </TouchableOpacity>
       </View>
-    </HoldItem>
+      <Text numberOfLines={3} style={styles.contentText}>
+        {content}
+      </Text>
+      <Text style={styles.datetText}>{date}</Text>
+    </View>
   );
 };
 

@@ -5,7 +5,6 @@ import { useFonts } from "expo-font";
 import Colors from "../../theme/colors";
 import CategoryList from "../../components/CategoryList";
 import NoteCard from "../../components/NoteCard";
-import { HoldMenuProvider } from "react-native-hold-menu";
 
 const NoteList = () => {
   const [loaded, error] = useFonts({
@@ -34,27 +33,22 @@ const NoteList = () => {
     },
   ];
   return (
-    <HoldMenuProvider
-      theme="light"
-      safeAreaInsets={{ top: 0, bottom: 0, left: 0, right: 0 }}
-    >
-      <View style={styles.container}>
-        <StatusBar barStyle={"default"} />
-        <Header />
-        <CategoryList />
-        <FlatList
-          data={notesExample}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <NoteCard
-              title={item.title}
-              content={item.content}
-              date={item.date}
-            />
-          )}
-        />
-      </View>
-    </HoldMenuProvider>
+    <View style={styles.container}>
+      <StatusBar barStyle={"default"} />
+      <Header />
+      <CategoryList />
+      <FlatList
+        data={notesExample}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => (
+          <NoteCard
+            title={item.title}
+            content={item.content}
+            date={item.date}
+          />
+        )}
+      />
+    </View>
   );
 };
 
