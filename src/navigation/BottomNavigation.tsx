@@ -6,11 +6,13 @@ import Timora from "../screens/Timora";
 import NoteList from "../screens/notes/NoteList";
 
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import Colors from "../theme/colors";
 
 const BottomNavigation = () => {
   return (
     <Tab.Navigator
       screenOptions={{
+        tabBarActiveTintColor: Colors.accentPrimary,
         headerShown: false,
         tabBarStyle: {
           position: "absolute",
@@ -18,6 +20,7 @@ const BottomNavigation = () => {
           bottom: 20,
           borderRadius: 10,
           boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
+          backgroundColor: Colors.backgroundNeutral,
         },
       }}
     >
