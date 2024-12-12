@@ -4,9 +4,15 @@ import React from "react";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Colors from "../theme/colors";
 
-const FloatingActionButton = () => {
+interface FloatingActionButtonProps {
+  toggleAddModal: () => void;
+}
+
+const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
+  toggleAddModal,
+}) => {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={toggleAddModal}>
       <View style={styles.innerContainer}>
         <MaterialIcons name="add" size={24} color={Colors.textPrimary} />
       </View>
