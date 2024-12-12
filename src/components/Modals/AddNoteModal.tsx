@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Alert,
   Modal,
@@ -10,14 +10,51 @@ import {
 } from "react-native";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import Colors from "../../theme/colors";
+import { useDispatch } from "react-redux";
+import { addNote } from "../../redux/notesSlice";
+import { nanoid } from "@reduxjs/toolkit";
+
 interface ModalProps {
   addNoteModalVisible: boolean;
   toggleAddModal: (visible: boolean) => void;
 }
+
 const AddNoteModal: React.FC<ModalProps> = ({
   addNoteModalVisible,
   toggleAddModal,
 }) => {
+  interface Note {
+    id: string;
+    title: string;
+    content: string;
+    date: string;
+  }
+
+  const [note, setNote] = useState<Note>({
+    id: "",
+    title: "",
+    content: "",
+    date: "",
+  });
+
+  const dispatch = useDispatch();
+
+  const handleAddNote = () => {
+    if (note.title.trim() && note.content.trim()) {
+      const newNote = {
+        ...note,
+        id: nanoid(),
+        date: new Date().toLocaleDateString("en-CA").toString(),
+      };
+
+      dispatch(addNote(newNote));
+      toggleAddModal(false);
+      setNote({ id: "", title: "", content: "", date: "" });
+    } else {
+      Alert.alert("Please fill out both fields.");
+    }
+  };
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.centeredView}>
@@ -27,7 +64,7 @@ const AddNoteModal: React.FC<ModalProps> = ({
           visible={addNoteModalVisible}
           onRequestClose={() => {
             Alert.alert("Modal has been closed.");
-            toggleAddModal;
+            toggleAddModal(false);
           }}
         >
           <View style={styles.centeredView}>
@@ -35,16 +72,19 @@ const AddNoteModal: React.FC<ModalProps> = ({
               <Text style={styles.modalTitle}>Add a new note</Text>
               <TextInput
                 placeholder="Title here.."
+                onChangeText={(text) => setNote({ ...note, title: text })}
                 style={styles.inputText}
                 placeholderTextColor={Colors.textPrimary}
               />
               <TextInput
                 placeholder="Content here.."
+                onChangeText={(text) => setNote({ ...note, content: text })}
                 style={styles.inputText}
                 placeholderTextColor={Colors.textPrimary}
               />
               <View style={styles.actionButtonsContainer}>
                 <TouchableOpacity
+                  onPress={handleAddNote}
                   style={[
                     styles.actionButtonContainer,
                     {
@@ -106,6 +146,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderRadius: 10,
     fontFamily: "Satoshi-Bold",
+    color: Colors.textPrimary,
   },
   actionButtonsContainer: {
     flexDirection: "row",
