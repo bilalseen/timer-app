@@ -5,6 +5,7 @@ import { useFonts } from "expo-font";
 import Colors from "../../theme/colors";
 import CategoryList from "../../components/CategoryList";
 import NoteCard from "../../components/NoteCard";
+import FloatingActionButton from "../../components/FloatingActionButton";
 
 const NoteList = () => {
   const [loaded, error] = useFonts({
@@ -48,6 +49,7 @@ const NoteList = () => {
           />
         )}
       />
+      <FloatingActionButton />
     </View>
   );
 };
