@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, StatusBar, FlatList } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import { useFonts } from "expo-font";
 import Colors from "../../theme/colors";
@@ -7,6 +7,9 @@ import CategoryList from "../../components/CategoryList";
 import NoteCard from "../../components/NoteCard";
 import FloatingActionButton from "../../components/FloatingActionButton";
 import AddNoteModal from "../../components/Modals/AddNoteModal";
+
+import { useSelector, useDispatch } from "react-redux";
+import { selectNotes } from "../../redux/notesSlice";
 
 const NoteList = () => {
   const [loaded, error] = useFonts({
@@ -18,6 +21,11 @@ const NoteList = () => {
   const toggleAddModal = () => {
     setAddNoteModalVisible(!addNoteModalVisible);
   };
+
+  const notes = useSelector(selectNotes);
+  useEffect(() => {
+    console.log(notes);
+  }, [notes]);
 
   const notesExample = [
     {
@@ -45,17 +53,23 @@ const NoteList = () => {
       <StatusBar barStyle={"default"} />
       <Header />
       <CategoryList />
-      <FlatList
-        data={notesExample}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <NoteCard
-            title={item.title}
-            content={item.content}
-            date={item.date}
-          />
-        )}
-      />
+      {notes.length > 0 ? (
+        <FlatList
+          data={notes}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <NoteCard
+              title={item.title}
+              content={item.content}
+              date={item.date}
+            />
+          )}
+        />
+      ) : (
+        <View style={styles.noneNotesTextContainer}>
+          <Text style={styles.noneNotesText}>Let's add some notes!</Text>
+        </View>
+      )}
       <AddNoteModal
         addNoteModalVisible={addNoteModalVisible}
         toggleAddModal={toggleAddModal}
@@ -71,6 +85,16 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.backgroundPrimary,
     paddingHorizontal: 10,
     paddingTop: 20,
+  },
+  noneNotesTextContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  noneNotesText: {
+    textAlign: "center",
+    color: Colors.textSecondary,
+    fontFamily: "Satoshi-Regular",
   },
 });
 
