@@ -1,4 +1,10 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import Colors from "../../theme/colors";
 import { useRoute, RouteProp, useNavigation } from "@react-navigation/native";
@@ -7,6 +13,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteNote } from "../../redux/notesSlice";
 import EditNoteModal from "../../components/Modals/EditNoteModal";
 import DeleteNoteModal from "../../components/Modals/DeleteNoteModal";
+import CategoryCard from "../../components/CategoryCard";
+import { nanoid } from "@reduxjs/toolkit";
 
 type RouteParams = {
   params: {
@@ -20,6 +28,7 @@ interface NoteProps {
   title: string;
   content: string;
   date: string;
+  categories?: string[];
 }
 
 const NoteDetail = () => {
@@ -103,6 +112,12 @@ const NoteDetail = () => {
       </View>
       <View style={styles.notes}>
         <Text style={styles.noteTitle}>{note.title}</Text>
+        <FlatList
+          horizontal
+          data={note.categories}
+          keyExtractor={(item) => nanoid()}
+          renderItem={({ item }) => <CategoryCard title={item} count={0} />}
+        />
         <Text style={styles.noteContent}>{note.content}</Text>
       </View>
 
@@ -110,7 +125,7 @@ const NoteDetail = () => {
         <EditNoteModal
           visible={isEditModalVisible}
           onClose={() => setEditModalVisible(false)}
-          note={note}
+          note={{ ...note, categories: note.categories || [] }}
           noteIndex={note.id}
         />
       )}
