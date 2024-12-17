@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import Colors from "../theme/colors";
 
@@ -8,19 +8,43 @@ interface CategoryCardProps {
 }
 
 const CategoryCard: React.FC<CategoryCardProps> = ({ title, count }) => {
+  const [selected, setSelected] = React.useState<boolean>(false);
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      onPress={() => setSelected(!selected)}
+      style={[
+        styles.container,
+        selected && {
+          backgroundColor: Colors.categoryButtonActive.backgroundColor,
+        },
+      ]}
+    >
       <Text style={styles.categoryTitle}>{title}</Text>
-      <View style={styles.countContainer}>
-        <Text style={styles.countText}>{count}</Text>
+      <View
+        style={[
+          styles.countContainer,
+          selected && {
+            backgroundColor:
+              Colors.categoryButtonActive.countContainerBackgroundColor,
+          },
+        ]}
+      >
+        <Text
+          style={[
+            styles.countText,
+            selected && { color: Colors.categoryButtonActive.textColor },
+          ]}
+        >
+          {count}
+        </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.backgroundSecondary,
+    backgroundColor: Colors.categoryButton.backgroundColor,
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderRadius: 50,
@@ -33,7 +57,7 @@ const styles = StyleSheet.create({
     color: Colors.textPrimary,
   },
   countContainer: {
-    backgroundColor: Colors.backgroundNeutral,
+    backgroundColor: Colors.categoryButton.countContainerBackgroundColor,
     width: 30,
     height: 30,
     alignItems: "center",
