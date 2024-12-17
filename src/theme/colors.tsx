@@ -22,6 +22,20 @@ const Colors = {
   borderWeak: "#262626",
   borderStrong: "#393737",
 
+  // Catgory Button
+  categoryButton: {
+    backgroundColor: "#393737",
+    textColor: "#E5E5E5",
+    countContainerBackgroundColor: "#262626",
+  },
+
+  // Category Button Active
+  categoryButtonActive: {
+    backgroundColor: "#FE6902",
+    textColor: "#010101",
+    countContainerBackgroundColor: "#E5E5E5",
+  },
+
   // Cancel Button
   cancelButton: {
     backgroundColor: "#393737",
