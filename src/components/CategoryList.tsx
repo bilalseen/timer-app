@@ -1,35 +1,17 @@
 import { View, Text, FlatList } from "react-native";
 import React from "react";
 import CategoryCard from "./CategoryCard";
+import { useSelector } from "react-redux";
+import { selectCategories } from "../redux/notesSlice";
 
 const CategoryList = () => {
-  const categoriesExample = [
-    {
-      id: 1,
-      name: "Category 1",
-      count: 6,
-    },
-    {
-      id: 2,
-      name: "Category 2",
-      count: 5,
-    },
-    {
-      id: 3,
-      name: "Category 3",
-      count: 10,
-    },
-    {
-      id: 4,
-      name: "Cgory 4",
-      count: 3,
-    },
-  ];
+  const categories = useSelector(selectCategories);
+
   return (
     <View>
       <FlatList
         horizontal
-        data={categoriesExample}
+        data={categories}
         ListHeaderComponent={() => (
           <CategoryCard title="All Notes" count={18} />
         )}
