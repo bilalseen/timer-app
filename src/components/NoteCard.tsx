@@ -1,9 +1,19 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
-
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Colors from "../theme/colors";
 import { useNavigation } from "@react-navigation/native";
+
+import {
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+  MenuProvider,
+} from "react-native-popup-menu";
+import { useDispatch } from "react-redux";
+import { deleteNote } from "../redux/notesSlice";
+import DeleteNoteModal from "./Modals/DeleteNoteModal";
 
 interface NoteCardProps {
   item: {
@@ -15,30 +25,82 @@ interface NoteCardProps {
 }
 
 const NoteCard: React.FC<NoteCardProps> = ({ item }) => {
+  const [isDeleteModalVisible, setDeleteModalVisible] =
+    React.useState<boolean>(false);
+
   const navigation = useNavigation<any>();
+  const dispatch = useDispatch();
+
+  const handleEdit = () => {
+    console.log("Edit note:", item.id);
+    navigation.navigate("NoteDetail", { itemId: item.id, openModal: true });
+  };
+
+  const handleDelete = () => {
+    dispatch(deleteNote(item.id));
+  };
+
   const handleNavigateToNoteDetail = () => {
     navigation.navigate("NoteDetail", { itemId: item.id });
   };
+
   return (
-    <TouchableOpacity
-      style={styles.container}
-      onPress={handleNavigateToNoteDetail}
-    >
-      <View style={styles.header}>
-        <Text style={styles.titleText}>{item.title}</Text>
-        <TouchableOpacity style={styles.moreButton}>
-          <MaterialIcons
-            name="more-vert"
-            size={24}
-            color={Colors.textPrimary}
-          />
-        </TouchableOpacity>
-      </View>
-      <Text numberOfLines={3} style={styles.contentText}>
-        {item.content}
-      </Text>
-      <Text style={styles.datetText}>{item.date}</Text>
-    </TouchableOpacity>
+    <MenuProvider>
+      <TouchableOpacity
+        style={styles.container}
+        onPress={handleNavigateToNoteDetail}
+      >
+        <View style={styles.header}>
+          <Text style={styles.titleText}>{item.title}</Text>
+          <Menu>
+            <MenuTrigger>
+              <MaterialIcons
+                name="more-vert"
+                size={24}
+                color={Colors.textPrimary}
+              />
+            </MenuTrigger>
+            <MenuOptions customStyles={menuStyles}>
+              <MenuOption onSelect={handleEdit}>
+                <View style={styles.menuOption}>
+                  <MaterialIcons
+                    name="edit"
+                    size={20}
+                    color={Colors.editButton.textColorAlt}
+                  />
+                  <Text
+                    style={[
+                      styles.menuOptionText,
+                      { color: Colors.editButton.textColorAlt },
+                    ]}
+                  >
+                    Edit
+                  </Text>
+                </View>
+              </MenuOption>
+              <MenuOption onSelect={() => setDeleteModalVisible(true)}>
+                <View style={styles.menuOption}>
+                  <MaterialIcons name="delete" size={20} color="red" />
+                  <Text style={[styles.menuOptionText, { color: "red" }]}>
+                    Delete
+                  </Text>
+                </View>
+              </MenuOption>
+            </MenuOptions>
+          </Menu>
+        </View>
+
+        <Text numberOfLines={3} style={styles.contentText}>
+          {item.content}
+        </Text>
+        <Text style={styles.dateText}>{item.date}</Text>
+      </TouchableOpacity>
+      <DeleteNoteModal
+        visible={isDeleteModalVisible}
+        onClose={() => setDeleteModalVisible(false)}
+        deleteNote={handleDelete}
+      />
+    </MenuProvider>
   );
 };
 
@@ -53,23 +115,40 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
   },
   titleText: {
     fontFamily: "Satoshi-Regular",
     color: Colors.textPrimary,
     fontSize: 20,
-    maxWidth: "80%",
   },
-  moreButton: {},
   contentText: {
     fontFamily: "Satoshi-Regular",
     color: Colors.textPrimary,
   },
-  datetText: {
+  dateText: {
     fontFamily: "Satoshi-Regular",
     color: Colors.textSecondary,
     textAlign: "right",
   },
+  menuOption: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    paddingVertical: 8,
+  },
+  menuOptionText: {
+    fontSize: 16,
+    color: Colors.textPrimary,
+  },
 });
+
+const menuStyles = {
+  optionsContainer: {
+    borderRadius: 8,
+    backgroundColor: Colors.backgroundNeutral,
+    padding: 5,
+  },
+};
 
 export default NoteCard;
