@@ -1,6 +1,11 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import Colors from "../theme/colors";
+import {
+  selectActiveCategories,
+  setActiveCategories,
+} from "../redux/notesSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 interface CategoryCardProps {
   title: string;
@@ -9,6 +14,16 @@ interface CategoryCardProps {
 
 const CategoryCard: React.FC<CategoryCardProps> = ({ title, count }) => {
   const [selected, setSelected] = React.useState<boolean>(false);
+
+  const activeCatogories = useSelector(selectActiveCategories);
+  const dispatch = useDispatch();
+
+  activeCatogories.includes(title) && useEffect(() => setSelected(true), []);
+
+  useEffect(() => {
+    dispatch(setActiveCategories(selected ? [title] : ["All Notes"]));
+  }, [selected]);
+
   return (
     <TouchableOpacity
       onPress={() => setSelected(!selected)}
