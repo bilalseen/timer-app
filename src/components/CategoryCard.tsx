@@ -20,24 +20,26 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ title, count }) => {
       ]}
     >
       <Text style={styles.categoryTitle}>{title}</Text>
-      <View
-        style={[
-          styles.countContainer,
-          selected && {
-            backgroundColor:
-              Colors.categoryButtonActive.countContainerBackgroundColor,
-          },
-        ]}
-      >
-        <Text
+      {count !== 0 && (
+        <View
           style={[
-            styles.countText,
-            selected && { color: Colors.categoryButtonActive.textColor },
+            styles.countContainer,
+            selected && {
+              backgroundColor:
+                Colors.categoryButtonActive.countContainerBackgroundColor,
+            },
           ]}
         >
-          {count}
-        </Text>
-      </View>
+          <Text
+            style={[
+              styles.countText,
+              selected && { color: Colors.categoryButtonActive.textColor },
+            ]}
+          >
+            {count}
+          </Text>
+        </View>
+      )}
     </TouchableOpacity>
   );
 };
