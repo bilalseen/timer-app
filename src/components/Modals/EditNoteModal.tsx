@@ -14,8 +14,8 @@ import { editNote } from "../../redux/notesSlice";
 interface EditNoteModalProps {
   visible: boolean;
   onClose: () => void;
-  note: { id: number; title: string; content: string };
-  noteIndex: number;
+  note: { id: string; title: string; content: string };
+  noteIndex: string;
 }
 
 const EditNoteModal: React.FC<EditNoteModalProps> = ({
