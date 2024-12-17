@@ -35,7 +35,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ title, count }) => {
       ]}
     >
       <Text style={styles.categoryTitle}>{title}</Text>
-      {count !== 0 && (
+      {count !== null && (
         <View
           style={[
             styles.countContainer,
