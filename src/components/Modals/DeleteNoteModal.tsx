@@ -6,8 +6,6 @@ interface EditNoteModalProps {
   visible: boolean;
   onClose: () => void;
   deleteNote: () => void;
-  note: { id: string; title: string; content: string };
-  noteIndex: string;
 }
 
 const DeleteNoteModal: React.FC<EditNoteModalProps> = ({
