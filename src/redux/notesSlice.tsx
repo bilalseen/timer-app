@@ -9,12 +9,22 @@ interface Note {
   date: string;
 }
 
+interface Category {
+  id: string;
+  name: string;
+  count: number;
+}
+
 interface NotesState {
   notes: Note[];
+  categories: Category[];
+  activeCategories: string[];
 }
 
 const initialState: NotesState = {
   notes: [],
+  categories: [],
+  activeCategories: [],
 };
 
 export const notesSlice = createSlice({
@@ -43,6 +53,9 @@ export const notesSlice = createSlice({
 export const { addNote, editNote, deleteNote } = notesSlice.actions;
 
 export const selectNotes = (state: RootState) => state.notes.notes;
+export const selectCategories = (state: RootState) => state.notes.categories;
+export const selectActiveCategories = (state: RootState) =>
+  state.notes.activeCategories;
 export const selectNoteById = (state: RootState, id: string) =>
   state.notes.notes.find((note) => note.id === id);
 
