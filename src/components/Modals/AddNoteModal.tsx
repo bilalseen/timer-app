@@ -27,6 +27,7 @@ const AddNoteModal: React.FC<ModalProps> = ({
     id: string;
     title: string;
     content: string;
+    categories: string[];
     date: string;
   }
 
@@ -34,6 +35,7 @@ const AddNoteModal: React.FC<ModalProps> = ({
     id: "",
     title: "",
     content: "",
+    categories: [],
     date: "",
   });
 
@@ -57,7 +59,8 @@ const AddNoteModal: React.FC<ModalProps> = ({
 
       dispatch(addNote(newNote));
       toggleAddModal(false);
-      setNote({ id: "", title: "", content: "", date: "" });
+      setNote({ id: "", title: "", content: "", categories: [], date: "" });
+      setCategory("");
     } else {
       Alert.alert("Please fill out both fields.");
     }
