@@ -3,18 +3,29 @@ import React from "react";
 
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Colors from "../theme/colors";
+import { useNavigation } from "@react-navigation/native";
 
 interface NoteCardProps {
-  title: string;
-  content: string;
-  date: string;
+  item: {
+    id: number;
+    title: string;
+    content: string;
+    date: string;
+  };
 }
 
-const NoteCard: React.FC<NoteCardProps> = ({ title, content, date }) => {
+const NoteCard: React.FC<NoteCardProps> = ({ item }) => {
+  const navigation = useNavigation<any>();
+  const handleNavigateToNoteDetail = () => {
+    navigation.navigate("NoteDetail", { itemId: item.id });
+  };
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={handleNavigateToNoteDetail}
+    >
       <View style={styles.header}>
-        <Text style={styles.titleText}>{title}</Text>
+        <Text style={styles.titleText}>{item.title}</Text>
         <TouchableOpacity style={styles.moreButton}>
           <MaterialIcons
             name="more-vert"
@@ -24,10 +35,10 @@ const NoteCard: React.FC<NoteCardProps> = ({ title, content, date }) => {
         </TouchableOpacity>
       </View>
       <Text numberOfLines={3} style={styles.contentText}>
-        {content}
+        {item.content}
       </Text>
-      <Text style={styles.datetText}>{date}</Text>
-    </View>
+      <Text style={styles.datetText}>{item.date}</Text>
+    </TouchableOpacity>
   );
 };
 
