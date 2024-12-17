@@ -14,7 +14,7 @@ import { editNote } from "../../redux/notesSlice";
 interface EditNoteModalProps {
   visible: boolean;
   onClose: () => void;
-  note: { id: string; title: string; content: string };
+  note: { id: string; title: string; content: string; categories: string[] };
   noteIndex: string;
 }
 
@@ -26,6 +26,9 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
 }) => {
   const [newTitle, setNewTitle] = useState(note.title);
   const [newContent, setNewContent] = useState(note.content);
+  const [newCategory, setNewCategory] = useState<string>(
+    note.categories.join(", ")
+  );
 
   const dispatch = useDispatch();
 
@@ -43,6 +46,11 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
             id: note.id,
             title: newTitle,
             content: newContent,
+            categories: newCategory
+              .trim()
+              .split(",")
+              .map((text) => text.trim())
+              .filter((text) => text !== ""),
             date: new Date().toLocaleDateString("en-CA").toString(),
           },
         })
@@ -68,6 +76,13 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
             placeholder="Content"
             style={styles.input}
             multiline
+          />
+          <TextInput
+            value={newCategory}
+            placeholder="Personal, Work, Reminders.."
+            onChangeText={(text) => setNewCategory(text)}
+            style={styles.input}
+            placeholderTextColor={Colors.textPrimary}
           />
           <View style={styles.buttonsContainer}>
             <TouchableOpacity onPress={handleSave} style={styles.button}>
