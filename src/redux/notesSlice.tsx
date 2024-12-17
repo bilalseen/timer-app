@@ -24,7 +24,7 @@ interface NotesState {
 const initialState: NotesState = {
   notes: [],
   categories: [],
-  activeCategories: [],
+  activeCategories: ["All Notes"],
 };
 
 export const notesSlice = createSlice({
@@ -47,10 +47,14 @@ export const notesSlice = createSlice({
     deleteNote: (state, action: PayloadAction<string>) => {
       state.notes = state.notes.filter((note) => note.id !== action.payload);
     },
+    setActiveCategories: (state, action: PayloadAction<string[]>) => {
+      state.activeCategories = action.payload;
+    },
   },
 });
 
-export const { addNote, editNote, deleteNote } = notesSlice.actions;
+export const { addNote, editNote, deleteNote, setActiveCategories } =
+  notesSlice.actions;
 
 export const selectNotes = (state: RootState) => state.notes.notes;
 export const selectCategories = (state: RootState) => state.notes.categories;
