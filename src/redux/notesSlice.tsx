@@ -6,6 +6,7 @@ interface Note {
   id: string;
   title: string;
   content: string;
+  categories: string[];
   date: string;
 }
 
@@ -33,7 +34,24 @@ export const notesSlice = createSlice({
   reducers: {
     addNote: (state, action: PayloadAction<Omit<Note, "id">>) => {
       const newId = uuidv4();
-      state.notes.push({ id: newId, ...action.payload });
+      const newNote = { id: newId, ...action.payload };
+      state.notes.push(newNote);
+
+      newNote.categories.forEach((categoryName) => {
+        const existingCategory = state.categories.find(
+          (category) => category.name === categoryName
+        );
+
+        if (existingCategory) {
+          existingCategory.count++;
+        } else {
+          state.categories.push({
+            id: uuidv4(),
+            name: categoryName,
+            count: 1,
+          });
+        }
+      });
     },
     editNote: (
       state,
