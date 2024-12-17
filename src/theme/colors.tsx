@@ -34,6 +34,7 @@ const Colors = {
   editButton: {
     backgroundColor: "#FE6902",
     textColor: "#FFFFFF",
+    textColorAlt: "#FE6902",
     hoverBackgroundColor: "#FF8533",
     disabledBackgroundColor: "#FFB366",
   },
