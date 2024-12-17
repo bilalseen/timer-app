@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Colors from "../../theme/colors";
 import { useRoute, RouteProp, useNavigation } from "@react-navigation/native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
@@ -11,6 +11,7 @@ import DeleteNoteModal from "../../components/Modals/DeleteNoteModal";
 type RouteParams = {
   params: {
     itemId: string;
+    openModal: boolean;
   };
 };
 
@@ -23,11 +24,11 @@ interface NoteProps {
 
 const NoteDetail = () => {
   const route = useRoute<RouteProp<RouteParams>>();
-  const { itemId } = route.params;
+  const { itemId, openModal } = route.params;
 
-  console.log("item id with uuidV4: " + itemId);
-
-  console.log(itemId);
+  useEffect(() => {
+    openModal && setEditModalVisible(true);
+  }, [openModal]);
 
   const note = useSelector((state: { notes: { notes: NoteProps[] } }) =>
     state.notes.notes.find((note) => note.id === itemId)
@@ -119,8 +120,6 @@ const NoteDetail = () => {
           visible={isDeleteModalVisible}
           onClose={() => setDeleteModalVisible(false)}
           deleteNote={handleDeleteNote}
-          note={note}
-          noteIndex={note.id}
         />
       )}
     </View>
