@@ -37,14 +37,22 @@ const AddNoteModal: React.FC<ModalProps> = ({
     date: "",
   });
 
+  const [category, setCategory] = useState<string>("");
+
   const dispatch = useDispatch();
 
   const handleAddNote = () => {
+    const categoriesArray = category
+      .trim()
+      .split(",")
+      .map((text) => text.trim())
+      .filter((text) => text !== "");
     if (note.title.trim() && note.content.trim()) {
       const newNote = {
         ...note,
         id: nanoid(),
         date: new Date().toLocaleDateString("en-CA").toString(),
+        categories: category ? categoriesArray : [],
       };
 
       dispatch(addNote(newNote));
@@ -79,6 +87,12 @@ const AddNoteModal: React.FC<ModalProps> = ({
               <TextInput
                 placeholder="Content here.."
                 onChangeText={(text) => setNote({ ...note, content: text })}
+                style={styles.inputText}
+                placeholderTextColor={Colors.textPrimary}
+              />
+              <TextInput
+                placeholder="Personal, Work, Reminders.."
+                onChangeText={(text) => setCategory(text)}
                 style={styles.inputText}
                 placeholderTextColor={Colors.textPrimary}
               />
