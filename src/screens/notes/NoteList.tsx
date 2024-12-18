@@ -38,9 +38,11 @@ const NoteList = () => {
       <CategoryList />
       {notes.length > 0 ? (
         <FlatList
+          showsVerticalScrollIndicator={false}
           data={notes}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => <NoteCard item={item} />}
+          ListFooterComponent={() => <View style={{ height: 70 }} />}
         />
       ) : (
         <View style={styles.noneNotesTextContainer}>
@@ -62,6 +64,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.backgroundPrimary,
     paddingHorizontal: 10,
     paddingTop: 20,
+    gap: 10,
   },
   noneNotesTextContainer: {
     flex: 1,
