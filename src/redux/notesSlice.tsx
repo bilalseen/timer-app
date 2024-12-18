@@ -7,6 +7,7 @@ interface Note {
   title: string;
   content: string;
   categories: string[];
+  lastCategories: string[];
   date: string;
 }
 
@@ -58,10 +59,44 @@ export const notesSlice = createSlice({
       action: PayloadAction<{ id: string; note: Partial<Note> }>
     ) => {
       const { id, note } = action.payload;
+
       state.notes = state.notes.map((existingNote) =>
         existingNote.id === id ? { ...existingNote, ...note } : existingNote
       );
+
+      note.lastCategories?.forEach((categoryName) => {
+        const existingCategory = state.categories.find(
+          (category) => category.name === categoryName
+        );
+
+        if (existingCategory) {
+          existingCategory.count--;
+
+          if (existingCategory.count === 0) {
+            state.categories = state.categories.filter(
+              (category) => category.name !== categoryName
+            );
+          }
+        }
+      });
+
+      note.categories?.forEach((categoryName) => {
+        const existingCategory = state.categories.find(
+          (category) => category.name === categoryName
+        );
+
+        if (existingCategory) {
+          existingCategory.count++;
+        } else {
+          state.categories.push({
+            id: uuidv4(),
+            name: categoryName,
+            count: 1,
+          });
+        }
+      });
     },
+
     deleteNote: (state, action: PayloadAction<string>) => {
       state.notes = state.notes.filter((note) => note.id !== action.payload);
     },
