@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: Colors.textPrimary,
     marginLeft: 10,
-    fontFamily: "Satoshi-Regular",
+    fontFamily: "Satoshi-Medium",
   },
   searchContainer: {
     flex: 1,
@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
   textInput: {
     color: Colors.textPrimary,
     flex: 9,
+    fontFamily: "Satoshi-Regular",
   },
   searchOffButton: {
     flex: 1,
