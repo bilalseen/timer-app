@@ -13,6 +13,9 @@ const BottomNavigation = () => {
     <Tab.Navigator
       screenOptions={{
         tabBarActiveTintColor: Colors.accentPrimary,
+        tabBarLabelStyle: {
+          fontFamily: "Satoshi-Medium",
+        },
         headerShown: false,
         tabBarStyle: {
           position: "absolute",
