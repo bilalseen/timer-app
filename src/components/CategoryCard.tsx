@@ -10,9 +10,14 @@ import { useDispatch, useSelector } from "react-redux";
 interface CategoryCardProps {
   title: string;
   count: number;
+  isDetailCard?: boolean;
 }
 
-const CategoryCard: React.FC<CategoryCardProps> = ({ title, count }) => {
+const CategoryCard: React.FC<CategoryCardProps> = ({
+  title,
+  count,
+  isDetailCard,
+}) => {
   const [selected, setSelected] = React.useState<boolean>(false);
 
   const activeCatogories = useSelector(selectActiveCategories);
@@ -35,7 +40,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ title, count }) => {
       ]}
     >
       <Text style={styles.categoryTitle}>{title}</Text>
-      {count !== null && (
+      {count !== null && !isDetailCard && (
         <View
           style={[
             styles.countContainer,

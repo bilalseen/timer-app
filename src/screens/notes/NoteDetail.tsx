@@ -122,7 +122,9 @@ const NoteDetail = () => {
           horizontal
           data={note.categories}
           keyExtractor={(item) => nanoid()}
-          renderItem={({ item }) => <CategoryCard title={item} count={0} />}
+          renderItem={({ item }) => (
+            <CategoryCard title={item} count={0} isDetailCard={true} />
+          )}
         />
         <Text style={styles.noteContent}>{note.content}</Text>
       </View>
