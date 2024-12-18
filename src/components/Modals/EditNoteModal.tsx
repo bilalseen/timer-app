@@ -10,6 +10,7 @@ import {
 import Colors from "../../theme/colors";
 import { useDispatch } from "react-redux";
 import { editNote } from "../../redux/notesSlice";
+import ToastMessage from "../../feedback/ToastMessage";
 
 interface EditNoteModalProps {
   visible: boolean;
@@ -55,6 +56,11 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
           },
         })
       );
+      ToastMessage({
+        type: "success",
+        text1: "Note updated",
+        textColor: Colors.success,
+      });
       onClose();
     }
   };

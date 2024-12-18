@@ -13,6 +13,7 @@ import Colors from "../../theme/colors";
 import { useDispatch } from "react-redux";
 import { addNote } from "../../redux/notesSlice";
 import { nanoid } from "@reduxjs/toolkit";
+import ToastMessage from "../../feedback/ToastMessage";
 
 interface ModalProps {
   addNoteModalVisible: boolean;
@@ -61,8 +62,18 @@ const AddNoteModal: React.FC<ModalProps> = ({
       toggleAddModal(false);
       setNote({ id: "", title: "", content: "", categories: [], date: "" });
       setCategory("");
+      ToastMessage({
+        type: "success",
+        text1: "Note added successfully!",
+        text2: "",
+        textColor: Colors.success,
+      });
     } else {
-      Alert.alert("Please fill out both fields.");
+      ToastMessage({
+        type: "error",
+        text1: "Please fill in all fields.",
+        textColor: Colors.error,
+      });
     }
   };
 

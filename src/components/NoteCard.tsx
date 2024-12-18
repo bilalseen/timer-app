@@ -14,6 +14,7 @@ import {
 import { useDispatch } from "react-redux";
 import { deleteNote } from "../redux/notesSlice";
 import DeleteNoteModal from "./Modals/DeleteNoteModal";
+import ToastMessage from "../feedback/ToastMessage";
 
 interface NoteCardProps {
   item: {
@@ -38,6 +39,11 @@ const NoteCard: React.FC<NoteCardProps> = ({ item }) => {
 
   const handleDelete = () => {
     dispatch(deleteNote(item.id));
+    ToastMessage({
+      type: "success",
+      text1: "Note deleted successfully!",
+      textColor: Colors.success,
+    });
   };
 
   const handleNavigateToNoteDetail = () => {
