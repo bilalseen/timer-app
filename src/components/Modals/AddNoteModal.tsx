@@ -85,20 +85,20 @@ const AddNoteModal: React.FC<ModalProps> = ({
                 placeholder="Title here.."
                 onChangeText={(text) => setNote({ ...note, title: text })}
                 style={styles.inputText}
-                placeholderTextColor={Colors.textPrimary}
+                placeholderTextColor={Colors.textSecondary}
               />
               <TextInput
                 placeholder="Content here.."
                 onChangeText={(text) => setNote({ ...note, content: text })}
                 style={styles.inputText}
-                placeholderTextColor={Colors.textPrimary}
+                placeholderTextColor={Colors.textSecondary}
                 multiline={true}
               />
               <TextInput
                 placeholder="Personal, Work, Reminders.."
                 onChangeText={(text) => setCategory(text)}
                 style={styles.inputText}
-                placeholderTextColor={Colors.textPrimary}
+                placeholderTextColor={Colors.textSecondary}
               />
               <View style={styles.actionButtonsContainer}>
                 <TouchableOpacity

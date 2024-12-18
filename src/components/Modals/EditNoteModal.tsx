@@ -68,21 +68,23 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
             value={newTitle}
             onChangeText={(text) => setNewTitle(text)}
             placeholder="Title"
+            placeholderTextColor={Colors.textSecondary}
             style={styles.input}
           />
           <TextInput
             value={newContent}
             onChangeText={(text) => setNewContent(text)}
             placeholder="Content"
+            placeholderTextColor={Colors.textSecondary}
             style={styles.input}
             multiline
           />
           <TextInput
             value={newCategory}
-            placeholder="Personal, Work, Reminders.."
             onChangeText={(text) => setNewCategory(text)}
+            placeholder="Personal, Work, Reminders.."
+            placeholderTextColor={Colors.textSecondary}
             style={styles.input}
-            placeholderTextColor={Colors.textPrimary}
           />
           <View style={styles.buttonsContainer}>
             <TouchableOpacity onPress={handleSave} style={styles.button}>
