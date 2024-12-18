@@ -31,6 +31,10 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
     note.categories.join(", ")
   );
 
+  const [lastCategories, setLastCategories] = useState<string>(
+    note.categories.join(", ")
+  );
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -48,6 +52,11 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
             title: newTitle,
             content: newContent,
             categories: newCategory
+              .trim()
+              .split(",")
+              .map((text) => text.trim())
+              .filter((text) => text !== ""),
+            lastCategories: lastCategories
               .trim()
               .split(",")
               .map((text) => text.trim())
