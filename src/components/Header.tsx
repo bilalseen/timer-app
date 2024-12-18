@@ -20,7 +20,7 @@ const Header = () => {
     <View style={styles.container}>
       {!isSearchOpen ? (
         <>
-          <Text style={styles.titleText}>Header</Text>
+          <Text style={styles.titleText}>Timora</Text>
           <TouchableOpacity onPress={ToggleSearchStatus}>
             <MaterialIcons name="search" size={30} color={Colors.textPrimary} />
           </TouchableOpacity>
