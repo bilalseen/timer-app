@@ -11,6 +11,7 @@ const CategoryList = () => {
     <View>
       <FlatList
         horizontal
+        showsHorizontalScrollIndicator={false}
         data={categories}
         ListHeaderComponent={() => (
           <CategoryCard title="All Notes" count={notesCount} />
