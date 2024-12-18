@@ -15,6 +15,7 @@ import EditNoteModal from "../../components/Modals/EditNoteModal";
 import DeleteNoteModal from "../../components/Modals/DeleteNoteModal";
 import CategoryCard from "../../components/CategoryCard";
 import { nanoid } from "@reduxjs/toolkit";
+import ToastMessage from "../../feedback/ToastMessage";
 
 type RouteParams = {
   params: {
@@ -52,6 +53,11 @@ const NoteDetail = () => {
   const handleDeleteNote = () => {
     dispatch(deleteNote(itemId));
     navigation.goBack();
+    ToastMessage({
+      type: "success",
+      text1: "Note deleted successfully!",
+      textColor: Colors.success,
+    });
   };
 
   const handleEditNote = () => {
