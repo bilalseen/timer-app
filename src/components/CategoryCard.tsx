@@ -31,7 +31,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
 
   return (
     <TouchableOpacity
-      onPress={() => setSelected(!selected)}
+      onPress={() => !isDetailCard && setSelected(!selected)}
       style={[
         styles.container,
         selected && {
