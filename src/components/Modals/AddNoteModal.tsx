@@ -92,6 +92,7 @@ const AddNoteModal: React.FC<ModalProps> = ({
                 onChangeText={(text) => setNote({ ...note, content: text })}
                 style={styles.inputText}
                 placeholderTextColor={Colors.textPrimary}
+                multiline={true}
               />
               <TextInput
                 placeholder="Personal, Work, Reminders.."
@@ -157,7 +158,6 @@ const styles = StyleSheet.create({
     color: Colors.textPrimary,
   },
   inputText: {
-    height: 40,
     width: "100%",
     borderBottomColor: Colors.borderWeak,
     borderBottomWidth: 1,
