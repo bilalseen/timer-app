@@ -21,6 +21,7 @@ interface NoteCardProps {
     id: string;
     title: string;
     content: string;
+    categories: string[];
     date: string;
   };
 }
@@ -38,7 +39,9 @@ const NoteCard: React.FC<NoteCardProps> = ({ item }) => {
   };
 
   const handleDelete = () => {
-    dispatch(deleteNote(item.id));
+    dispatch(
+      deleteNote({ id: item.id, noteCategories: item?.categories || [] })
+    );
     ToastMessage({
       type: "success",
       text1: "Note deleted successfully!",

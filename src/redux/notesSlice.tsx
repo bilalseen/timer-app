@@ -97,8 +97,27 @@ export const notesSlice = createSlice({
       });
     },
 
-    deleteNote: (state, action: PayloadAction<string>) => {
-      state.notes = state.notes.filter((note) => note.id !== action.payload);
+    deleteNote: (
+      state,
+      action: PayloadAction<{ id: string; noteCategories: string[] }>
+    ) => {
+      const { id, noteCategories } = action.payload;
+      state.notes = state.notes.filter((note) => note.id !== id);
+      noteCategories?.forEach((categoryName) => {
+        const existingCategory = state.categories.find(
+          (category) => category.name === categoryName
+        );
+
+        if (existingCategory) {
+          existingCategory.count--;
+
+          if (existingCategory.count === 0) {
+            state.categories = state.categories.filter(
+              (category) => category.name !== categoryName
+            );
+          }
+        }
+      });
     },
     setActiveCategories: (state, action: PayloadAction<string[]>) => {
       state.activeCategories = action.payload;

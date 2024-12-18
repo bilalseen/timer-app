@@ -51,7 +51,9 @@ const NoteDetail = () => {
   const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
 
   const handleDeleteNote = () => {
-    dispatch(deleteNote(itemId));
+    dispatch(
+      deleteNote({ id: itemId, noteCategories: note?.categories || [] })
+    );
     navigation.goBack();
     ToastMessage({
       type: "success",
