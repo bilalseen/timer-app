@@ -5,6 +5,8 @@ import BottomNavigation from "./BottomNavigation";
 import { Provider } from "react-redux";
 import store from "../redux/store";
 import NoteDetail from "../screens/notes/NoteDetail";
+import Toast from "react-native-toast-message";
+
 const Stack = createNativeStackNavigator();
 
 const Router = () => {
@@ -19,6 +21,7 @@ const Router = () => {
           <Stack.Screen name="BottomNavigation" component={BottomNavigation} />
           <Stack.Screen name="NoteDetail" component={NoteDetail} />
         </Stack.Navigator>
+        <Toast />
       </NavigationContainer>
     </Provider>
   );
