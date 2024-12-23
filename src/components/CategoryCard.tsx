@@ -18,20 +18,48 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
   count,
   isDetailCard,
 }) => {
-  const [selected, setSelected] = React.useState<boolean>(false);
+  const activeCategories = useSelector(selectActiveCategories);
+  const [selected, setSelected] = React.useState<boolean>(
+    activeCategories.includes(title)
+  );
 
-  const activeCatogories = useSelector(selectActiveCategories);
   const dispatch = useDispatch();
 
-  activeCatogories.includes(title) && useEffect(() => setSelected(true), []);
+  useEffect(() => {
+    if (title === "All Notes") {
+      setSelected(activeCategories.length === 0);
+    } else {
+      setSelected(activeCategories.includes(title));
+    }
+  }, [activeCategories]);
 
   useEffect(() => {
-    dispatch(setActiveCategories(selected ? [title] : ["All Notes"]));
+    if (title === "All Notes" && selected) {
+      dispatch(setActiveCategories([]));
+    } else if (selected) {
+      dispatch(setActiveCategories([...activeCategories, title]));
+    } else {
+      dispatch(
+        setActiveCategories(
+          activeCategories.filter((category) => category !== title)
+        )
+      );
+    }
   }, [selected]);
+
+  const handlePress = () => {
+    if (isDetailCard) return;
+
+    if (title === "All Notes") {
+      setSelected(true);
+    } else {
+      setSelected(!selected);
+    }
+  };
 
   return (
     <TouchableOpacity
-      onPress={() => !isDetailCard && setSelected(!selected)}
+      onPress={handlePress}
       style={[
         styles.container,
         selected && {
