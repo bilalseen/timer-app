@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, StatusBar, FlatList } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { act, useEffect, useMemo, useState } from "react";
 import Header from "../../components/Header";
 import { useFonts } from "expo-font";
 import Colors from "../../theme/colors";
@@ -9,7 +9,16 @@ import FloatingActionButton from "../../components/FloatingActionButton";
 import AddNoteModal from "../../components/Modals/AddNoteModal";
 
 import { useSelector, useDispatch } from "react-redux";
-import { selectNotes } from "../../redux/notesSlice";
+import { selectActiveCategories, selectNotes } from "../../redux/notesSlice";
+
+interface Note {
+  id: string;
+  title: string;
+  content: string;
+  categories: string[];
+  lastCategories: string[];
+  date: string;
+}
 
 const NoteList = () => {
   const [loaded, error] = useFonts({
@@ -21,15 +30,28 @@ const NoteList = () => {
   });
 
   const [addNoteModalVisible, setAddNoteModalVisible] = useState(false);
+  const [filteredNotes, setFilteredNotes] = useState<Note[]>([]);
+
+  const notes = useSelector(selectNotes);
+  const activeCategories = useSelector(selectActiveCategories);
 
   const toggleAddModal = () => {
     setAddNoteModalVisible(!addNoteModalVisible);
   };
 
-  const notes = useSelector(selectNotes);
   useEffect(() => {
-    // console.log(notes);
-  }, [notes]);
+    if (activeCategories.length === 0) {
+      setFilteredNotes(notes);
+    } else {
+      const filtered = notes.filter((note) => {
+        return activeCategories.some((category) =>
+          note.categories.includes(category)
+        );
+      });
+
+      setFilteredNotes(filtered);
+    }
+  }, [activeCategories, notes]);
 
   return (
     <View style={styles.container}>
@@ -39,7 +61,7 @@ const NoteList = () => {
       {notes.length > 0 ? (
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={notes}
+          data={filteredNotes}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => <NoteCard item={item} />}
           ListFooterComponent={() => <View style={{ height: 70 }} />}
