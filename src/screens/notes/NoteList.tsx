@@ -10,6 +10,7 @@ import AddNoteModal from "../../components/Modals/AddNoteModal";
 
 import { useSelector, useDispatch } from "react-redux";
 import { selectActiveCategories, selectNotes } from "../../redux/notesSlice";
+import { set } from "react-native-reanimated";
 
 interface Note {
   id: string;
@@ -31,6 +32,8 @@ const NoteList = () => {
 
   const [addNoteModalVisible, setAddNoteModalVisible] = useState(false);
   const [filteredNotes, setFilteredNotes] = useState<Note[]>([]);
+  const [searchText, setSearchText] = useState<string>("");
+  const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
 
   const notes = useSelector(selectNotes);
   const activeCategories = useSelector(selectActiveCategories);
@@ -40,24 +43,39 @@ const NoteList = () => {
   };
 
   useEffect(() => {
-    if (activeCategories.length === 0) {
-      setFilteredNotes(notes);
-    } else {
+    if (searchText !== "") {
       const filtered = notes.filter((note) => {
-        return activeCategories.some((category) =>
-          note.categories.includes(category)
+        return (
+          note.title.toLowerCase().includes(searchText.toLowerCase()) ||
+          note.content.toLowerCase().includes(searchText.toLowerCase())
         );
       });
-
       setFilteredNotes(filtered);
+    } else {
+      if (activeCategories.length === 0) {
+        setFilteredNotes(notes);
+      } else {
+        const filtered = notes.filter((note) => {
+          return activeCategories.some((category) =>
+            note.categories.includes(category)
+          );
+        });
+
+        setFilteredNotes(filtered);
+      }
     }
-  }, [activeCategories, notes]);
+  }, [activeCategories, notes, searchText]);
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle={"default"} />
-      <Header />
-      <CategoryList />
+      <Header
+        searchText={searchText}
+        setSearchText={setSearchText}
+        isSearchOpen={isSearchOpen}
+        setIsSearchOpen={setIsSearchOpen}
+      />
+      {!isSearchOpen && <CategoryList />}
       {notes.length > 0 ? (
         <FlatList
           showsVerticalScrollIndicator={false}
