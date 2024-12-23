@@ -26,7 +26,7 @@ interface NotesState {
 const initialState: NotesState = {
   notes: [],
   categories: [],
-  activeCategories: ["All Notes"],
+  activeCategories: [],
 };
 
 export const notesSlice = createSlice({
@@ -120,7 +120,12 @@ export const notesSlice = createSlice({
       });
     },
     setActiveCategories: (state, action: PayloadAction<string[]>) => {
-      state.activeCategories = action.payload;
+      if (
+        JSON.stringify(state.activeCategories) !==
+        JSON.stringify(action.payload)
+      ) {
+        state.activeCategories = action.payload;
+      }
     },
   },
 });
