@@ -10,11 +10,25 @@ import React, { useState } from "react";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Colors from "../theme/colors";
 
-const Header = () => {
-  const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
-
+interface HeaderProps {
+  searchText: string;
+  setSearchText: (text: string) => void;
+  isSearchOpen: boolean;
+  setIsSearchOpen: (status: boolean) => void;
+}
+const Header: React.FC<HeaderProps> = ({
+  searchText,
+  setSearchText,
+  isSearchOpen,
+  setIsSearchOpen,
+}) => {
   const ToggleSearchStatus = () => {
     setIsSearchOpen(!isSearchOpen);
+    searchText !== "" && setSearchText("");
+  };
+
+  const handleChangeText = (text: string) => {
+    setSearchText(text);
   };
   return (
     <View style={styles.container}>
@@ -28,6 +42,7 @@ const Header = () => {
       ) : (
         <View style={styles.searchContainer}>
           <TextInput
+            onChangeText={(text) => handleChangeText(text)}
             placeholder="Search..."
             placeholderTextColor={Colors.textPrimary}
             style={styles.textInput}
