@@ -11,6 +11,7 @@ import AddNoteModal from "../../components/Modals/AddNoteModal";
 import { useSelector, useDispatch } from "react-redux";
 import { selectActiveCategories, selectNotes } from "../../redux/notesSlice";
 import { set } from "react-native-reanimated";
+import parseNoteData from "../../utils/parseNoteData";
 
 interface Note {
   id: string;
@@ -50,18 +51,17 @@ const NoteList = () => {
           note.content.toLowerCase().includes(searchText.toLowerCase())
         );
       });
-      setFilteredNotes(filtered);
+      setFilteredNotes(parseNoteData(filtered));
     } else {
       if (activeCategories.length === 0) {
-        setFilteredNotes(notes);
+        setFilteredNotes(parseNoteData(notes));
       } else {
         const filtered = notes.filter((note) => {
           return activeCategories.some((category) =>
             note.categories.includes(category)
           );
         });
-
-        setFilteredNotes(filtered);
+        setFilteredNotes(parseNoteData(filtered));
       }
     }
   }, [activeCategories, notes, searchText]);
