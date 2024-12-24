@@ -15,7 +15,13 @@ import ToastMessage from "../../feedback/ToastMessage";
 interface EditNoteModalProps {
   visible: boolean;
   onClose: () => void;
-  note: { id: string; title: string; content: string; categories: string[] };
+  note: {
+    id: string;
+    title: string;
+    content: string;
+    categories: string[];
+    isEdited: boolean;
+  };
   noteIndex: string;
 }
 
@@ -61,7 +67,8 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
               .split(",")
               .map((text) => text.trim())
               .filter((text) => text !== ""),
-            date: new Date().toLocaleDateString("en-CA").toString(),
+            date: new Date().toISOString(),
+            isEdited: true,
           },
         })
       );
