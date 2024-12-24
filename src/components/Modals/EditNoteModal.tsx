@@ -6,11 +6,14 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Image,
 } from "react-native";
 import Colors from "../../theme/colors";
 import { useDispatch } from "react-redux";
 import { editNote } from "../../redux/notesSlice";
 import ToastMessage from "../../feedback/ToastMessage";
+import { MaterialIcons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
 
 interface EditNoteModalProps {
   visible: boolean;
@@ -21,6 +24,7 @@ interface EditNoteModalProps {
     content: string;
     categories: string[];
     isEdited: boolean;
+    image?: string | null;
   };
   noteIndex: string;
 }
@@ -35,6 +39,9 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
   const [newContent, setNewContent] = useState(note.content);
   const [newCategory, setNewCategory] = useState<string>(
     note.categories.join(", ")
+  );
+  const [image, setImage] = useState<string | null>(
+    note.image ? note.image : null
   );
 
   const [lastCategories, setLastCategories] = useState<string>(
@@ -69,6 +76,7 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
               .filter((text) => text !== ""),
             date: new Date().toISOString(),
             isEdited: true,
+            image: image,
           },
         })
       );
@@ -78,6 +86,20 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
         textColor: Colors.success,
       });
       onClose();
+    }
+  };
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ["images", "videos"],
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      console.log(result.assets[0].uri);
+      setImage(result.assets[0].uri);
     }
   };
 
@@ -108,6 +130,50 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
             placeholderTextColor={Colors.textSecondary}
             style={styles.input}
           />
+          {!image ? (
+            <TouchableOpacity
+              onPress={pickImage}
+              style={styles.imagePickerContainer}
+            >
+              <Text style={styles.imagePickerText}>Pick image</Text>
+            </TouchableOpacity>
+          ) : (
+            <View style={styles.pickedImageContainer}>
+              <View style={styles.pickedImageActionButtonContainer}>
+                <TouchableOpacity
+                  onPress={pickImage}
+                  style={[
+                    styles.pickedImageButton,
+                    {
+                      backgroundColor: Colors.editButton.backgroundColor,
+                    },
+                  ]}
+                >
+                  <MaterialIcons
+                    name="change-circle"
+                    size={20}
+                    color={Colors.textPrimary}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => setImage(null)}
+                  style={[
+                    styles.pickedImageButton,
+                    {
+                      backgroundColor: Colors.deleteButton.backgroundColor,
+                    },
+                  ]}
+                >
+                  <MaterialIcons
+                    name="delete"
+                    size={20}
+                    color={Colors.textPrimary}
+                  />
+                </TouchableOpacity>
+              </View>
+              <Image source={{ uri: image }} style={styles.pickedImage} />
+            </View>
+          )}
           <View style={styles.buttonsContainer}>
             <TouchableOpacity onPress={handleSave} style={styles.button}>
               <Text style={styles.buttonText}>Save</Text>
@@ -140,6 +206,7 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: Colors.backgroundSecondary,
     borderRadius: 10,
+    gap: 20,
   },
   modalTitle: {
     fontSize: 24,
@@ -151,9 +218,43 @@ const styles = StyleSheet.create({
     height: 40,
     borderBottomWidth: 1,
     borderColor: Colors.borderWeak,
-    marginBottom: 20,
     paddingLeft: 10,
     color: Colors.textPrimary,
+  },
+  imagePickerContainer: {
+    width: "100%",
+    padding: 10,
+    borderRadius: 10,
+    borderColor: Colors.accentPrimary,
+    borderWidth: 1,
+    borderStyle: "dashed",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  imagePickerText: {
+    color: Colors.textActive,
+    fontFamily: "Satoshi-Bold",
+  },
+  pickedImageContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  pickedImageActionButtonContainer: {
+    position: "absolute",
+    zIndex: 1,
+    right: 30,
+    top: -10,
+    flexDirection: "row",
+    gap: 10,
+  },
+  pickedImageButton: {
+    borderRadius: 50,
+    padding: 2,
+  },
+  pickedImage: {
+    width: 200,
+    height: 200,
+    borderRadius: 10,
   },
   buttonsContainer: {
     flexDirection: "row",

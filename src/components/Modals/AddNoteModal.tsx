@@ -7,6 +7,7 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import Colors from "../../theme/colors";
@@ -14,6 +15,8 @@ import { useDispatch } from "react-redux";
 import { addNote } from "../../redux/notesSlice";
 import { nanoid } from "@reduxjs/toolkit";
 import ToastMessage from "../../feedback/ToastMessage";
+import * as ImagePicker from "expo-image-picker";
+import { MaterialIcons } from "@expo/vector-icons";
 
 interface ModalProps {
   addNoteModalVisible: boolean;
@@ -30,7 +33,10 @@ const AddNoteModal: React.FC<ModalProps> = ({
     content: string;
     categories: string[];
     date: string;
+    image: string | null;
   }
+
+  const [image, setImage] = useState<string | null>(null);
 
   const [note, setNote] = useState<Note>({
     id: "",
@@ -38,6 +44,7 @@ const AddNoteModal: React.FC<ModalProps> = ({
     content: "",
     categories: [],
     date: "",
+    image: null,
   });
 
   const [category, setCategory] = useState<string>("");
@@ -56,11 +63,22 @@ const AddNoteModal: React.FC<ModalProps> = ({
         id: nanoid(),
         date: new Date().toISOString(),
         categories: category ? categoriesArray : [],
+        image: image,
+        lastCategories: [],
+        isEdited: false,
       };
 
       dispatch(addNote(newNote));
       toggleAddModal(false);
-      setNote({ id: "", title: "", content: "", categories: [], date: "" });
+      setImage(null);
+      setNote({
+        id: "",
+        title: "",
+        content: "",
+        categories: [],
+        date: "",
+        image: null,
+      });
       setCategory("");
       ToastMessage({
         type: "success",
@@ -74,6 +92,20 @@ const AddNoteModal: React.FC<ModalProps> = ({
         text1: "Please fill in all fields.",
         textColor: Colors.error,
       });
+    }
+  };
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ["images", "videos"],
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      console.log(result.assets[0].uri);
+      setImage(result.assets[0].uri);
     }
   };
 
@@ -111,6 +143,50 @@ const AddNoteModal: React.FC<ModalProps> = ({
                 style={styles.inputText}
                 placeholderTextColor={Colors.textSecondary}
               />
+              {!image ? (
+                <TouchableOpacity
+                  onPress={pickImage}
+                  style={styles.imagePickerContainer}
+                >
+                  <Text style={styles.imagePickerText}>Pick image</Text>
+                </TouchableOpacity>
+              ) : (
+                <View>
+                  <View style={styles.pickedImageActionButtonContainer}>
+                    <TouchableOpacity
+                      onPress={pickImage}
+                      style={[
+                        styles.pickedImageButton,
+                        {
+                          backgroundColor: Colors.editButton.backgroundColor,
+                        },
+                      ]}
+                    >
+                      <MaterialIcons
+                        name="change-circle"
+                        size={20}
+                        color={Colors.textPrimary}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => setImage(null)}
+                      style={[
+                        styles.pickedImageButton,
+                        {
+                          backgroundColor: Colors.deleteButton.backgroundColor,
+                        },
+                      ]}
+                    >
+                      <MaterialIcons
+                        name="delete"
+                        size={20}
+                        color={Colors.textPrimary}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  <Image source={{ uri: image }} style={styles.pickedImage} />
+                </View>
+              )}
               <View style={styles.actionButtonsContainer}>
                 <TouchableOpacity
                   onPress={handleAddNote}
@@ -124,7 +200,10 @@ const AddNoteModal: React.FC<ModalProps> = ({
                   <Text style={styles.actionButtonText}>Add</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPressIn={() => toggleAddModal(false)}
+                  onPressIn={() => {
+                    toggleAddModal(false);
+                    setImage(null);
+                  }}
                   style={[
                     styles.actionButtonContainer,
                     { backgroundColor: Colors.cancelButton.backgroundColor },
@@ -175,6 +254,37 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     fontFamily: "Satoshi-Bold",
     color: Colors.textPrimary,
+  },
+  imagePickerContainer: {
+    width: "100%",
+    padding: 10,
+    borderRadius: 10,
+    borderColor: Colors.accentPrimary,
+    borderWidth: 1,
+    borderStyle: "dashed",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  imagePickerText: {
+    color: Colors.textActive,
+    fontFamily: "Satoshi-Bold",
+  },
+  pickedImageActionButtonContainer: {
+    position: "absolute",
+    zIndex: 1,
+    right: -10,
+    top: -10,
+    flexDirection: "row",
+    gap: 10,
+  },
+  pickedImageButton: {
+    borderRadius: 50,
+    padding: 2,
+  },
+  pickedImage: {
+    width: 200,
+    height: 200,
+    borderRadius: 10,
   },
   actionButtonsContainer: {
     flexDirection: "row",
