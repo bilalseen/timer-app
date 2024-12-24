@@ -24,6 +24,7 @@ interface NoteCardProps {
     content: string;
     categories: string[];
     date: string;
+    isEdited: boolean;
   };
 }
 
@@ -106,7 +107,9 @@ const NoteCard: React.FC<NoteCardProps> = ({ item }) => {
         <Text numberOfLines={3} style={styles.contentText}>
           {item.content}
         </Text>
-        <Text style={styles.dateText}>{formattedDate}</Text>
+        <Text style={styles.dateText}>
+          {(item.isEdited ? "Updated " : "") + formattedDate}
+        </Text>
       </TouchableOpacity>
       <DeleteNoteModal
         visible={isDeleteModalVisible}
