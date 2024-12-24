@@ -8,6 +8,7 @@ interface Note {
   content: string;
   categories: string[];
   lastCategories: string[];
+  image: string | null;
   date: string;
   isEdited: boolean;
 }
