@@ -29,7 +29,9 @@
       [
         "expo-font",
         {
-          "fonts": ["./src/assets/fonts/Open 24 Display St.ttf"]
+          "fonts": [
+            "./src/assets/fonts/Open 24 Display St.ttf"
+          ]
         }
       ],
       [
@@ -37,7 +39,8 @@
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
-      ]
+      ],
+      "expo-video"
     ],
     "extra": {
       "eas": {
