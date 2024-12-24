@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Colors from "../theme/colors";
 import { useNavigation } from "@react-navigation/native";
@@ -15,7 +15,6 @@ import { useDispatch } from "react-redux";
 import { deleteNote } from "../redux/notesSlice";
 import DeleteNoteModal from "./Modals/DeleteNoteModal";
 import ToastMessage from "../feedback/ToastMessage";
-import { formatDistance, parseISO, subDays } from "date-fns";
 import formattedDate from "../utils/formatDate";
 
 interface NoteCardProps {
@@ -26,6 +25,7 @@ interface NoteCardProps {
     categories: string[];
     date: string;
     isEdited: boolean;
+    image?: string | null;
   };
 }
 
@@ -101,7 +101,12 @@ const NoteCard: React.FC<NoteCardProps> = ({ item }) => {
             </MenuOptions>
           </Menu>
         </View>
-
+        {item.image && (
+          <Image
+            source={{ uri: item.image }}
+            style={{ width: "100%", height: 100, borderRadius: 10 }}
+          />
+        )}
         <Text numberOfLines={3} style={styles.contentText}>
           {item.content}
         </Text>
