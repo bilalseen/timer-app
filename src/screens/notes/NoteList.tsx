@@ -20,6 +20,7 @@ interface Note {
   categories: string[];
   lastCategories: string[];
   date: string;
+  isEdited: boolean;
 }
 
 const NoteList = () => {
