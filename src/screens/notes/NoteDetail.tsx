@@ -16,6 +16,7 @@ import DeleteNoteModal from "../../components/Modals/DeleteNoteModal";
 import CategoryCard from "../../components/CategoryCard";
 import { nanoid } from "@reduxjs/toolkit";
 import ToastMessage from "../../feedback/ToastMessage";
+import formattedDate from "../../utils/formatDate";
 
 type RouteParams = {
   params: {
@@ -30,6 +31,7 @@ interface NoteProps {
   content: string;
   date: string;
   categories?: string[];
+  isEdited: boolean;
 }
 
 const NoteDetail = () => {
@@ -119,6 +121,10 @@ const NoteDetail = () => {
         </View>
       </View>
       <View style={styles.notes}>
+        <Text style={styles.noteDate}>
+          {(note.isEdited ? "Updated " : "") +
+            formattedDate({ noteDate: note.date })}
+        </Text>
         <Text style={styles.noteTitle}>{note.title}</Text>
         <FlatList
           horizontal
@@ -176,13 +182,18 @@ const styles = StyleSheet.create({
     marginVertical: 50,
     gap: 20,
   },
+  noteDate: {
+    fontFamily: "Satoshi-Regular",
+    color: Colors.textActive,
+    fontSize: 12,
+  },
   noteTitle: {
     fontFamily: "Satoshi-Bold",
     color: Colors.textPrimary,
     fontSize: 24,
   },
   noteContent: {
-    fontFamily: "Satoshi-Bold",
+    fontFamily: "Satoshi-Regular",
     color: Colors.textPrimary,
   },
   errorText: {
