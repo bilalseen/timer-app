@@ -148,7 +148,7 @@ const AddNoteModal: React.FC<ModalProps> = ({
                   onPress={pickImage}
                   style={styles.imagePickerContainer}
                 >
-                  <Text style={styles.imagePickerText}>Pick image</Text>
+                  <Text style={styles.imagePickerText}>Pick Media</Text>
                 </TouchableOpacity>
               ) : (
                 <View>
