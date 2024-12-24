@@ -5,6 +5,7 @@ interface Note {
   categories: string[];
   lastCategories: string[];
   date: string;
+  isEdited: boolean;
 }
 
 export default function parseNoteData(notes: Note[]) {
