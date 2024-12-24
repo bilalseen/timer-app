@@ -54,7 +54,7 @@ const AddNoteModal: React.FC<ModalProps> = ({
       const newNote = {
         ...note,
         id: nanoid(),
-        date: new Date().toLocaleDateString("en-CA").toString(),
+        date: new Date().toISOString(),
         categories: category ? categoriesArray : [],
       };
 
