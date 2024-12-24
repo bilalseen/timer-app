@@ -59,10 +59,11 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
 
   return (
     <TouchableOpacity
+      disabled={isDetailCard}
       onPress={handlePress}
       style={[
         styles.container,
-        selected && {
+        (selected || isDetailCard) && {
           backgroundColor: Colors.categoryButtonActive.backgroundColor,
         },
       ]}
