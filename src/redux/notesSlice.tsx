@@ -9,6 +9,7 @@ interface Note {
   categories: string[];
   lastCategories: string[];
   date: string;
+  isEdited: boolean;
 }
 
 interface Category {
