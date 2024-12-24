@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { deleteNote } from "../redux/notesSlice";
 import DeleteNoteModal from "./Modals/DeleteNoteModal";
 import ToastMessage from "../feedback/ToastMessage";
+import { formatDistance, parseISO, subDays } from "date-fns";
 
 interface NoteCardProps {
   item: {
@@ -52,6 +53,9 @@ const NoteCard: React.FC<NoteCardProps> = ({ item }) => {
   const handleNavigateToNoteDetail = () => {
     navigation.navigate("NoteDetail", { itemId: item.id });
   };
+  const formattedDate = formatDistance(parseISO(item.date), new Date(), {
+    addSuffix: true,
+  });
 
   return (
     <MenuProvider>
@@ -102,7 +106,7 @@ const NoteCard: React.FC<NoteCardProps> = ({ item }) => {
         <Text numberOfLines={3} style={styles.contentText}>
           {item.content}
         </Text>
-        <Text style={styles.dateText}>{item.date}</Text>
+        <Text style={styles.dateText}>{formattedDate}</Text>
       </TouchableOpacity>
       <DeleteNoteModal
         visible={isDeleteModalVisible}
