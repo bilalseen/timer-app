@@ -4,6 +4,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
+  Image,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import Colors from "../../theme/colors";
@@ -32,6 +33,7 @@ interface NoteProps {
   date: string;
   categories?: string[];
   isEdited: boolean;
+  image?: string | null;
 }
 
 const NoteDetail = () => {
@@ -67,6 +69,8 @@ const NoteDetail = () => {
   const handleEditNote = () => {
     setEditModalVisible(true);
   };
+
+  console.log("note iamge: " + note?.image);
 
   if (!note) {
     return (
@@ -134,6 +138,9 @@ const NoteDetail = () => {
             <CategoryCard title={item} count={0} isDetailCard={true} />
           )}
         />
+        {note.image && (
+          <Image source={{ uri: note.image }} style={styles.noteImage} />
+        )}
         <Text style={styles.noteContent}>{note.content}</Text>
       </View>
 
@@ -191,6 +198,12 @@ const styles = StyleSheet.create({
     fontFamily: "Satoshi-Bold",
     color: Colors.textPrimary,
     fontSize: 24,
+  },
+  noteImage: {
+    width: "100%",
+    height: 200,
+    borderRadius: 10,
+    marginVertical: 10,
   },
   noteContent: {
     fontFamily: "Satoshi-Regular",
