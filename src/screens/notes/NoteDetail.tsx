@@ -18,6 +18,7 @@ import CategoryCard from "../../components/CategoryCard";
 import { nanoid } from "@reduxjs/toolkit";
 import ToastMessage from "../../feedback/ToastMessage";
 import formattedDate from "../../utils/formatDate";
+import { useVideoPlayer, VideoView } from "expo-video";
 
 type RouteParams = {
   params: {
@@ -53,6 +54,7 @@ const NoteDetail = () => {
 
   const [isEditModalVisible, setEditModalVisible] = useState(false);
   const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [image, setImage] = useState<string | null>(note?.image || null);
 
   const handleDeleteNote = () => {
     dispatch(
@@ -70,7 +72,12 @@ const NoteDetail = () => {
     setEditModalVisible(true);
   };
 
-  console.log("note iamge: " + note?.image);
+  const isItVideo = note?.image?.includes("mp4");
+
+  const player = useVideoPlayer(image, (player) => {
+    player.loop = false;
+    player.pause();
+  });
 
   if (!note) {
     return (
@@ -139,7 +146,18 @@ const NoteDetail = () => {
           )}
         />
         {note.image && (
-          <Image source={{ uri: note.image }} style={styles.noteImage} />
+          <View>
+            {isItVideo ? (
+              <VideoView
+                style={styles.video}
+                player={player}
+                allowsFullscreen
+                allowsPictureInPicture
+              />
+            ) : (
+              <Image source={{ uri: note.image }} style={styles.noteImage} />
+            )}
+          </View>
         )}
         <Text style={styles.noteContent}>{note.content}</Text>
       </View>
@@ -204,6 +222,10 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 10,
     marginVertical: 10,
+  },
+  video: {
+    width: 350,
+    height: 275,
   },
   noteContent: {
     fontFamily: "Satoshi-Regular",
