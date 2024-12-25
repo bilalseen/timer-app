@@ -1,5 +1,4 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
 import { NavigationContainer } from "@react-navigation/native";
 import BottomNavigation from "./BottomNavigation";
 import { Provider } from "react-redux";
