@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Timora",
-    "slug": "staj_hafta_1_app",
+    "slug": "staj_hafta_2_app",
     "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./src/assets/icon/icon.png",
@@ -20,7 +20,7 @@
         "foregroundImage": "./src/assets/icon/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.bilalseen.staj_hafta_1_app"
+      "package": "com.bilalseen.staj_hafta_2_app"
     },
     "web": {
       "favicon": "./assets/favicon.png"
