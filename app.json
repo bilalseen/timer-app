@@ -2,7 +2,7 @@
   "expo": {
     "name": "Timora",
     "slug": "staj_hafta_1_app",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./src/assets/icon/icon.png",
     "userInterfaceStyle": "light",
@@ -29,9 +29,7 @@
       [
         "expo-font",
         {
-          "fonts": [
-            "./src/assets/fonts/Open 24 Display St.ttf"
-          ]
+          "fonts": ["./src/assets/fonts/Open 24 Display St.ttf"]
         }
       ],
       [
