@@ -282,8 +282,8 @@ const styles = StyleSheet.create({
     padding: 2,
   },
   pickedImage: {
-    width: 200,
-    height: 200,
+    width: 250,
+    height: 150,
     borderRadius: 10,
   },
   actionButtonsContainer: {
