@@ -2,6 +2,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "./store";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { set } from "date-fns";
 interface Note {
   id: string;
   title: string;
@@ -31,6 +33,20 @@ const initialState: NotesState = {
   activeCategories: [],
 };
 
+const storeData = async (value: Note[]) => {
+  try {
+    const jsonValue = JSON.stringify(value);
+    await AsyncStorage.setItem("notes", jsonValue);
+  } catch (e) {}
+};
+
+const storeCategories = async (value: Category[]) => {
+  try {
+    const jsonValue = JSON.stringify(value);
+    await AsyncStorage.setItem("categories", jsonValue);
+  } catch (e) {}
+};
+
 export const notesSlice = createSlice({
   name: "notes",
   initialState,
@@ -55,6 +71,14 @@ export const notesSlice = createSlice({
           });
         }
       });
+      storeData(state.notes);
+      storeCategories(state.categories);
+    },
+    setAsyncStorageData: (state, action: PayloadAction<Note[]>) => {
+      state.notes = action.payload;
+    },
+    setAsyncStorageCategories: (state, action: PayloadAction<Category[]>) => {
+      state.categories = action.payload;
     },
     editNote: (
       state,
@@ -97,6 +121,8 @@ export const notesSlice = createSlice({
           });
         }
       });
+      storeData(state.notes);
+      storeCategories(state.categories);
     },
 
     deleteNote: (
@@ -120,6 +146,8 @@ export const notesSlice = createSlice({
           }
         }
       });
+      storeData(state.notes);
+      storeCategories(state.categories);
     },
     setActiveCategories: (state, action: PayloadAction<string[]>) => {
       if (
@@ -132,8 +160,14 @@ export const notesSlice = createSlice({
   },
 });
 
-export const { addNote, editNote, deleteNote, setActiveCategories } =
-  notesSlice.actions;
+export const {
+  addNote,
+  editNote,
+  deleteNote,
+  setActiveCategories,
+  setAsyncStorageData,
+  setAsyncStorageCategories,
+} = notesSlice.actions;
 
 export const selectNotes = (state: RootState) => state.notes.notes;
 export const selectCategories = (state: RootState) => state.notes.categories;
