@@ -7,8 +7,48 @@ import NoteList from "../screens/notes/NoteList";
 
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Colors from "../theme/colors";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import {
+  setAsyncStorageCategories,
+  setAsyncStorageData,
+} from "../redux/notesSlice";
 
 const BottomNavigation = () => {
+  const dispatch = useDispatch();
+  const getData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("notes");
+      return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch (e) {
+      // error reading value
+    }
+  };
+
+  const getCategories = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("categories");
+      return jsonValue != null ? JSON.parse(jsonValue) : [];
+    } catch (e) {
+      return [];
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      const data = await getData();
+      if (data) {
+        dispatch(setAsyncStorageData(data));
+      }
+
+      const categories = await getCategories();
+      if (categories) {
+        dispatch(setAsyncStorageCategories(categories));
+      }
+    })();
+  }, []);
+
   return (
     <Tab.Navigator
       screenOptions={{
