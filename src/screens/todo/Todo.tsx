@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, StatusBar } from "react-native";
 import React from "react";
 import todoColors from "../../theme/todo/colors";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
+import Card from "../../components/todo/Card";
 
 const Todo = () => {
   return (
@@ -33,6 +34,7 @@ const Todo = () => {
       </AnimatedCircularProgress>
       <Text style={styles.firstTitleText}>Your're doing great,</Text>
       <Text style={styles.secondTitleText}>your're halfway there!</Text>
+      <Card />
     </View>
   );
 };
@@ -42,6 +44,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: todoColors.background,
+    paddingHorizontal: 20,
   },
   progressBarTextContainer: {
     justifyContent: "center",
