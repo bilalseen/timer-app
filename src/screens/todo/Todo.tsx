@@ -9,7 +9,8 @@ const Todo = () => {
         barStyle={"light-content"}
         backgroundColor={todoColors.background}
       />
-      <Text style={{ color: "#fff" }}>Hola Todo's</Text>
+      <Text style={styles.firstTitleText}>Your're doing great,</Text>
+      <Text style={styles.secondTitleText}>your're halfway there!</Text>
     </View>
   );
 };
@@ -17,9 +18,17 @@ const Todo = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
     backgroundColor: todoColors.background,
+  },
+  firstTitleText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: todoColors.textPrimary,
+  },
+  secondTitleText: {
+    fontSize: 24,
+    color: todoColors.textPrimary,
   },
 });
 
