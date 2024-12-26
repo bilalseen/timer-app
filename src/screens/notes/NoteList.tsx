@@ -10,7 +10,6 @@ import AddNoteModal from "../../components/Modals/AddNoteModal";
 
 import { useSelector, useDispatch } from "react-redux";
 import { selectActiveCategories, selectNotes } from "../../redux/notesSlice";
-import { set } from "react-native-reanimated";
 import parseNoteData from "../../utils/parseNoteData";
 
 interface Note {
@@ -69,7 +68,7 @@ const NoteList = () => {
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle={"default"} />
+      <StatusBar barStyle={"dark-content"} />
       <Header
         searchText={searchText}
         setSearchText={setSearchText}
