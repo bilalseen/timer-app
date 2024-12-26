@@ -63,7 +63,9 @@ const NoteCard: React.FC<NoteCardProps> = ({ item }) => {
         onPress={handleNavigateToNoteDetail}
       >
         <View style={styles.header}>
-          <Text style={styles.titleText}>{item.title}</Text>
+          <Text numberOfLines={2} style={styles.titleText}>
+            {item.title}
+          </Text>
           <Menu>
             <MenuTrigger>
               <MaterialIcons
