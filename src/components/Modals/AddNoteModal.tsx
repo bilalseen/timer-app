@@ -104,7 +104,6 @@ const AddNoteModal: React.FC<ModalProps> = ({
     });
 
     if (!result.canceled) {
-      console.log(result.assets[0].uri);
       setImage(result.assets[0].uri);
     }
   };
@@ -116,10 +115,7 @@ const AddNoteModal: React.FC<ModalProps> = ({
           animationType="slide"
           transparent={true}
           visible={addNoteModalVisible}
-          onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
-            toggleAddModal(false);
-          }}
+          onRequestClose={() => toggleAddModal(false)}
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
