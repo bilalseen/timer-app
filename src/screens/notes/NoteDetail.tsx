@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   FlatList,
   Image,
+  StatusBar,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import Colors from "../../theme/colors";
@@ -98,6 +99,7 @@ const NoteDetail = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar barStyle={"dark-content"} />
       <View style={styles.actionContainer}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <MaterialIcons
