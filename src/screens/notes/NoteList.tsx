@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, StatusBar, FlatList } from "react-native";
-import React, { act, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import { useFonts } from "expo-font";
 import Colors from "../../theme/colors";
@@ -8,7 +8,7 @@ import NoteCard from "../../components/NoteCard";
 import FloatingActionButton from "../../components/FloatingActionButton";
 import AddNoteModal from "../../components/Modals/AddNoteModal";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { selectActiveCategories, selectNotes } from "../../redux/notesSlice";
 import parseNoteData from "../../utils/parseNoteData";
 
