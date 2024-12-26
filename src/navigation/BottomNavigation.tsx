@@ -14,6 +14,8 @@ import {
   setAsyncStorageCategories,
   setAsyncStorageData,
 } from "../redux/notesSlice";
+import Todo from "../screens/todo/Todo";
+import todoColors from "../theme/todo/colors";
 
 const BottomNavigation = () => {
   const dispatch = useDispatch();
@@ -67,6 +69,20 @@ const BottomNavigation = () => {
         },
       }}
     >
+      <Tab.Screen
+        name="Görev Listesi"
+        component={Todo}
+        options={{
+          tabBarActiveTintColor: todoColors.highlight,
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons
+              name="format-list-bulleted"
+              size={24}
+              color={color}
+            />
+          ),
+        }}
+      />
       <Tab.Screen
         name="Notes"
         component={NoteList}
