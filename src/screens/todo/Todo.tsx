@@ -14,6 +14,7 @@ import Card from "../../components/todo/Card";
 import { useSelector } from "react-redux";
 import { selectCompleted, selectUncompleted } from "../../redux/todoSlice";
 import { MaterialIcons } from "@expo/vector-icons";
+import AddModal from "../../components/Modals/todo/AddModal";
 
 interface Todo {
   id: string;
@@ -27,9 +28,14 @@ interface Todo {
 const Todo = () => {
   const [completedTodos, setCompletedTodos] = useState<Todo[]>([]);
   const [unCompletedTodos, setUnCompletedTodos] = useState<Todo[]>([]);
+  const [addNoteModalVisible, setAddNoteModalVisible] = useState(false);
 
   const unComplete = useSelector(selectUncompleted);
   const completed = useSelector(selectCompleted);
+
+  const toggleAddModal = () => {
+    setAddNoteModalVisible(!addNoteModalVisible);
+  };
 
   useEffect(() => {
     setCompletedTodos(completed);
@@ -82,7 +88,7 @@ const Todo = () => {
             </Text>
             <TouchableOpacity
               style={styles.addTodoButtonContainer}
-              onPress={() => null}
+              onPress={toggleAddModal}
             >
               <Text style={styles.addTodoButtonText}>Add Task</Text>
             </TouchableOpacity>
@@ -113,6 +119,10 @@ const Todo = () => {
         </View>
       </View>
       <View style={{ height: 100 }}></View>
+      <AddModal
+        addNoteModalVisible={addNoteModalVisible}
+        toggleAddModal={toggleAddModal}
+      />
     </ScrollView>
   );
 };
