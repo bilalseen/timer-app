@@ -22,7 +22,7 @@ const initialState: TodosState = {
       id: "1",
       title: "First todo",
       content: "This is the first todo",
-      date: "2021-09-01",
+      date: "2024-12-26T00:00:00.000Z",
       isEdited: false,
       completed: false,
     },
@@ -30,7 +30,7 @@ const initialState: TodosState = {
       id: "2",
       title: "Second todo",
       content: "This is the second todo",
-      date: "2021-09-02",
+      date: "2024-09-02T00:00:00.000Z",
       isEdited: false,
       completed: false,
     },
@@ -38,7 +38,7 @@ const initialState: TodosState = {
       id: "3",
       title: "Third todo",
       content: "This is the third todo",
-      date: "2021-09-03",
+      date: "2024-09-03T00:00:00.000Z",
       isEdited: false,
       completed: false,
     },
@@ -48,7 +48,7 @@ const initialState: TodosState = {
       id: "4",
       title: "Fourth todo",
       content: "This is the fourth todo",
-      date: "2021-09-04",
+      date: "2024-09-04T00:00:00.000Z",
       isEdited: false,
       completed: true,
     },
@@ -56,7 +56,7 @@ const initialState: TodosState = {
       id: "5",
       title: "Fifth todo",
       content: "This is the fifth todo",
-      date: "2021-09-05",
+      date: "2024-09-05T00:00:00.000Z",
       isEdited: false,
       completed: true,
     },
@@ -64,12 +64,13 @@ const initialState: TodosState = {
       id: "6",
       title: "Sixth todo",
       content: "This is the sixth todo",
-      date: "2021-09-06",
+      date: "2024-09-06T00:00:00.000Z",
       isEdited: false,
       completed: true,
     },
   ],
 };
+
 const todosSlice = createSlice({
   name: "todos",
   initialState,
@@ -93,16 +94,27 @@ const todosSlice = createSlice({
       if (todo) {
         if (todo.completed) {
           todo.completed = false;
-          state.todos.push(todo);
-          state.todos = state.completed.filter(
-            (todo) => todo.id !== action.payload
+          state.completed = state.completed.filter(
+            (completedTodo) => completedTodo.id !== action.payload
           );
+          state.todos.push({ ...todo });
         } else {
           todo.completed = true;
-          state.completed.push(todo);
           state.todos = state.todos.filter(
-            (todo) => todo.id !== action.payload
+            (uncompletedTodo) => uncompletedTodo.id !== action.payload
           );
+          state.completed.push({ ...todo });
+        }
+      } else {
+        const completedTodo = state.completed.find(
+          (completedTodo) => completedTodo.id === action.payload
+        );
+        if (completedTodo) {
+          completedTodo.completed = false;
+          state.completed = state.completed.filter(
+            (completedTodo) => completedTodo.id !== action.payload
+          );
+          state.todos.push({ ...completedTodo });
         }
       }
     },
