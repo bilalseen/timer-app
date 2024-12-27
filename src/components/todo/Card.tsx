@@ -19,10 +19,21 @@ import {
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-const Card = () => {
+interface TodoCardProps {
+  item: {
+    id: string;
+    title: string;
+    content: string;
+    date: string;
+    isEdited: boolean;
+    completed: boolean;
+  };
+}
+
+const Card: React.FC<TodoCardProps> = ({ item }) => {
   const navigation = useNavigation<any>();
   const [cardMenuStatus, setCardMenuStatus] = React.useState<boolean>(false);
-  const [isCompleted, setIsCompleted] = React.useState<boolean>(false);
+  const [isCompleted, setIsCompleted] = React.useState<boolean>(item.completed);
 
   const toggleCardMenu = () => {
     setCardMenuStatus(!cardMenuStatus);
@@ -121,7 +132,7 @@ const Card = () => {
             ]}
             numberOfLines={2}
           >
-            Card Title
+            {item.title}
           </Text>
           <Text
             style={[
@@ -135,11 +146,7 @@ const Card = () => {
             ]}
             numberOfLines={3}
           >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo,
-            quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Nemo, quidem. Lorem ipsum dolor sit amet consectetur adipisicing
-            elit. Nemo, quidem. Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Nemo, quidem.
+            {item.content}
           </Text>
         </View>
       </Pressable>
