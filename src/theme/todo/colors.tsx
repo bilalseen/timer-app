@@ -7,6 +7,11 @@ const todoColors = {
   completedTaskLine: "#0D0714", // For strikethrough tasks.
   buttonBackground: "#9E78CF", // Buttons like "Add Task".
   highlight: "#805AD5", // Fine details and highlight elements.
+
+  // State Colors
+  success: "#27AE60", // Successful operation
+  error: "#E74C3C", // Failed operation
+  warning: "#F1C40F", // Warnings
 };
 
 export default todoColors;
