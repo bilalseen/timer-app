@@ -7,7 +7,7 @@ import {
   Vibration,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import todoColors from "../../theme/todo/colors";
 import {
   Menu,
@@ -18,24 +18,44 @@ import {
 } from "react-native-popup-menu";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { toggleCompleteTodoStatus } from "../../redux/todoSlice";
+import formattedDate from "../../utils/formatDate";
 
-const Card = () => {
+interface TodoCardProps {
+  item: {
+    id: string;
+    title: string;
+    content: string;
+    date: string;
+    isEdited: boolean;
+    completed: boolean;
+  };
+}
+
+const Card: React.FC<TodoCardProps> = ({ item }) => {
   const navigation = useNavigation<any>();
   const [cardMenuStatus, setCardMenuStatus] = React.useState<boolean>(false);
-  const [isCompleted, setIsCompleted] = React.useState<boolean>(false);
+  const [isCompleted, setIsCompleted] = React.useState<boolean>(item.completed);
 
+  const dispatch = useDispatch();
   const toggleCardMenu = () => {
     setCardMenuStatus(!cardMenuStatus);
     !cardMenuStatus && Vibration.vibrate(100);
   };
 
   const toggleCompletionStatus = () => {
-    setIsCompleted(!isCompleted);
+    dispatch(toggleCompleteTodoStatus(item.id));
   };
+
+  useEffect(() => {
+    setIsCompleted(item.completed);
+  }, [item.completed]);
 
   const handleNavigateToNoteDetail = () => {
     navigation.navigate("TodoDetail", { itemId: "1234" });
   };
+
   return (
     <MenuProvider>
       <Pressable
@@ -121,7 +141,7 @@ const Card = () => {
             ]}
             numberOfLines={2}
           >
-            Card Title
+            {item.title}
           </Text>
           <Text
             style={[
@@ -135,11 +155,10 @@ const Card = () => {
             ]}
             numberOfLines={3}
           >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo,
-            quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Nemo, quidem. Lorem ipsum dolor sit amet consectetur adipisicing
-            elit. Nemo, quidem. Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Nemo, quidem.
+            {item.content}
+          </Text>
+          <Text style={styles.todoDate}>
+            {formattedDate({ noteDate: item.date })}
           </Text>
         </View>
       </Pressable>
@@ -164,6 +183,7 @@ const styles = StyleSheet.create({
   },
   todoContentContainer: { flex: 1, gap: 5 },
   todoContent: {},
+  todoDate: { textAlign: "right", color: todoColors.textPrimary, fontSize: 12 },
   checkboxContainer: {
     width: 40,
     height: 40,
