@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import { selectCompleted, selectUncompleted } from "../../redux/todoSlice";
 import { MaterialIcons } from "@expo/vector-icons";
 import AddModal from "../../components/Modals/todo/AddModal";
+import parseTodoData from "../../utils/parseTodoData";
 
 interface Todo {
   id: string;
@@ -39,7 +40,7 @@ const Todo = () => {
 
   useEffect(() => {
     setCompletedTodos(completed);
-    setUnCompletedTodos(unComplete);
+    setUnCompletedTodos(parseTodoData(unComplete));
   }, [unComplete, completed]);
 
   return (
