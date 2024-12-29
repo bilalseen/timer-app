@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   deleteAllCompleted,
   selectCompleted,
+  selectTodos,
   selectUncompleted,
 } from "../../redux/todoSlice";
 import AddModal from "../../components/Modals/todo/AddModal";
@@ -38,6 +39,7 @@ const Todo = () => {
 
   const unComplete = useSelector(selectUncompleted);
   const completed = useSelector(selectCompleted);
+  const todos = useSelector(selectTodos);
 
   const dispatch = useDispatch();
 
@@ -67,52 +69,65 @@ const Todo = () => {
         barStyle={"light-content"}
         backgroundColor={todoColors.background}
       />
-      <AnimatedCircularProgress
-        size={150}
-        width={13}
-        fill={
-          (completedTodos.length /
-            (completedTodos.length + unCompletedTodos.length)) *
-          100
-        }
-        rotation={0}
-        duration={3000}
-        tintColor={todoColors.background}
-        onAnimationComplete={() => console.log("onAnimationComplete")}
-        backgroundColor={todoColors.primary}
-        backgroundWidth={22}
-        lineCap={"round"}
-      >
-        {(fill: number) => (
-          <View style={styles.progressBarTextContainer}>
-            <Text style={styles.progressBarText}>{Math.round(fill)}%</Text>
-            <Text style={[styles.progressBarText, { fontSize: 12 }]}>
-              Completed
-            </Text>
+      {todos.length < 0 && (
+        <>
+          <AnimatedCircularProgress
+            size={150}
+            width={13}
+            fill={
+              (completedTodos.length /
+                (completedTodos.length + unCompletedTodos.length)) *
+              100
+            }
+            rotation={0}
+            duration={3000}
+            tintColor={todoColors.background}
+            onAnimationComplete={() => console.log("onAnimationComplete")}
+            backgroundColor={todoColors.primary}
+            backgroundWidth={22}
+            lineCap={"round"}
+          >
+            {(fill: number) => (
+              <View style={styles.progressBarTextContainer}>
+                <Text style={styles.progressBarText}>{Math.round(fill)}%</Text>
+                <Text style={[styles.progressBarText, { fontSize: 12 }]}>
+                  Completed
+                </Text>
+              </View>
+            )}
+          </AnimatedCircularProgress>
+          <View>
+            <Text style={styles.firstTitleText}>Your're doing great,</Text>
+            <Text style={styles.secondTitleText}>your're halfway there!</Text>
           </View>
-        )}
-      </AnimatedCircularProgress>
-      <View>
-        <Text style={styles.firstTitleText}>Your're doing great,</Text>
-        <Text style={styles.secondTitleText}>your're halfway there!</Text>
-      </View>
+        </>
+      )}
       <View style={[styles.todosContainer, { gap: 30 }]}>
-        <View style={styles.todosContainer}>
-          <View style={styles.todoTitleContainer}>
-            <Text style={styles.todoTitle}>
-              Task to do - {unCompletedTodos?.length}
-            </Text>
-            <TouchableOpacity
-              style={styles.addTodoButtonContainer}
-              onPress={toggleAddModal}
-            >
-              <Text style={styles.addTodoButtonText}>Add Task</Text>
-            </TouchableOpacity>
+        {unCompletedTodos.length > 0 ? (
+          <View style={styles.todosContainer}>
+            <View style={styles.todoTitleContainer}>
+              <Text style={styles.todoTitle}>
+                Task to do - {unCompletedTodos?.length}
+              </Text>
+              <TouchableOpacity
+                style={styles.addTodoButtonContainer}
+                onPress={toggleAddModal}
+              >
+                <Text style={styles.addTodoButtonText}>Add Task</Text>
+              </TouchableOpacity>
+            </View>
+            {unCompletedTodos.map((item, index) => (
+              <Card item={item} key={index} />
+            ))}
           </View>
-          {unCompletedTodos.map((item, index) => (
-            <Card item={item} key={index} />
-          ))}
-        </View>
+        ) : (
+          <TouchableOpacity
+            onPress={() => null}
+            style={styles.calendarControlButtonContainer}
+          >
+            <Text style={styles.imagePickerText}>Add Todo</Text>
+          </TouchableOpacity>
+        )}
         {completedTodos.length > 0 && (
           <View style={styles.todosContainer}>
             <View style={styles.todoTitleContainer}>
@@ -191,6 +206,20 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   moreActionButtonContainer: {},
+  calendarControlButtonContainer: {
+    width: "100%",
+    padding: 10,
+    borderRadius: 10,
+    borderColor: todoColors.buttonBackground,
+    borderWidth: 1,
+    borderStyle: "dashed",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  imagePickerText: {
+    color: todoColors.buttonBackground,
+    fontFamily: "Satoshi-Bold",
+  },
 });
 
 export default Todo;
