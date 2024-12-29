@@ -138,7 +138,7 @@ const Todo = () => {
               You have no task to do for today. Let's add one!
             </Text>
             <TouchableOpacity
-              onPress={() => null}
+              onPress={toggleAddModal}
               style={styles.calendarControlButtonContainer}
             >
               <Text style={styles.imagePickerText}>Add Todo</Text>
