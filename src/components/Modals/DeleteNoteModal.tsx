@@ -23,7 +23,10 @@ const DeleteNoteModal: React.FC<EditNoteModalProps> = ({
           </Text>
           <View style={styles.buttonsContainer}>
             <TouchableOpacity
-              onPress={() => deleteNote()}
+              onPress={() => {
+                deleteNote();
+                onClose();
+              }}
               style={[
                 styles.button,
                 { backgroundColor: Colors.deleteButton.backgroundColor },
