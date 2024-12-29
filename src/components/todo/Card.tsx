@@ -56,10 +56,42 @@ const Card: React.FC<TodoCardProps> = ({ item }) => {
     navigation.navigate("TodoDetail", { itemId: "1234" });
   };
 
+  const getBackgroundColorBasedOnDate = () => {
+    const currentDate = new Date();
+    const todoDate = new Date(item.date);
+    const diffInMilliseconds = todoDate.getTime() - currentDate.getTime();
+    const diffInHours = diffInMilliseconds / (1000 * 3600);
+    const diffInDays = diffInMilliseconds / (1000 * 3600 * 24);
+
+    if (diffInMilliseconds < 0) {
+      return todoColors.pastDue;
+    } else if (diffInHours <= 1) {
+      return todoColors.lessThanOneHour;
+    } else if (diffInHours <= 6) {
+      return todoColors.lessThanSixHours;
+    } else if (diffInHours <= 12) {
+      return todoColors.lessThanTwelveHours;
+    } else if (diffInDays <= 1) {
+      return todoColors.lessThanOneDay;
+    }
+  };
+
   return (
     <MenuProvider>
       <Pressable
-        style={styles.container}
+        style={[
+          styles.container,
+          {
+            shadowColor: getBackgroundColorBasedOnDate(),
+            shadowOffset: {
+              width: 2,
+              height: 2,
+            },
+            shadowOpacity: 1,
+            shadowRadius: 3.84,
+            elevation: 5,
+          },
+        ]}
         onLongPress={toggleCardMenu}
         onPress={handleNavigateToNoteDetail}
       >

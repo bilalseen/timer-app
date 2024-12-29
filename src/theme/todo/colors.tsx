@@ -12,6 +12,13 @@ const todoColors = {
   success: "#27AE60", // Successful operation
   error: "#E74C3C", // Failed operation
   warning: "#F1C40F", // Warnings
+
+  // Todo Card Shadow Colors
+  pastDue: "#520220", // Task is past due
+  lessThanOneHour: "#FFAA00", // Less than 1 hour remaining
+  lessThanSixHours: "#F1A103", // Less than 6 hours remaining
+  lessThanTwelveHours: "#C7860A", // Less than 12 hours remaining
+  lessThanOneDay: "#8E0C13", // Less than 1 day remaining
 };
 
 export default todoColors;
