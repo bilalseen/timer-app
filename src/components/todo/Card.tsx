@@ -53,7 +53,7 @@ const Card: React.FC<TodoCardProps> = ({ item }) => {
   }, [item.completed]);
 
   const handleNavigateToNoteDetail = () => {
-    navigation.navigate("TodoDetail", { itemId: "1234" });
+    navigation.navigate("TodoDetail", { itemId: item.id });
   };
 
   const getBackgroundColorBasedOnDate = () => {

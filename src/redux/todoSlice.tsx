@@ -11,6 +11,12 @@ interface Todo {
   completed: boolean;
 }
 
+interface UpadeteTodo {
+  id: string;
+  title: string;
+  content: string;
+}
+
 interface TodosState {
   todos: Todo[];
   completed: Todo[];
@@ -22,7 +28,7 @@ const initialState: TodosState = {
       id: "1",
       title: "First todo",
       content: "This is the first todo",
-      date: "2024-12-26T00:00:00.000Z",
+      date: "2024-12-29T16:00:00.000Z",
       isEdited: false,
       completed: false,
     },
@@ -30,7 +36,7 @@ const initialState: TodosState = {
       id: "2",
       title: "Second todo",
       content: "This is the second todo",
-      date: "2024-09-02T00:00:00.000Z",
+      date: "2024-12-29T12:00:00.000Z",
       isEdited: false,
       completed: false,
     },
@@ -38,7 +44,15 @@ const initialState: TodosState = {
       id: "3",
       title: "Third todo",
       content: "This is the third todo",
-      date: "2024-09-03T00:00:00.000Z",
+      date: "2024-12-22T19:00:00.000Z",
+      isEdited: false,
+      completed: false,
+    },
+    {
+      id: "8",
+      title: "Eight todo",
+      content: "This is the third todo",
+      date: "2024-12-27T19:00:00.000Z",
       isEdited: false,
       completed: false,
     },
@@ -80,13 +94,14 @@ const todosSlice = createSlice({
       const newTodo = { id: newId, ...action.payload };
       state.todos.push(newTodo);
     },
-    editTodo: (state, action: PayloadAction<Todo>) => {
+    editTodo: (state, action: PayloadAction<UpadeteTodo>) => {
       const { id, title, content } = action.payload;
       const todo = state.todos.find((todo) => todo.id === id);
       if (todo) {
         todo.title = title;
         todo.content = content;
         todo.isEdited = true;
+        todo.date = new Date().toISOString();
       }
     },
     toggleCompleteTodoStatus: (state, action: PayloadAction<string>) => {
@@ -128,5 +143,8 @@ export const selectTodos = (state: RootState) => state.todos.todos;
 export const selectCompleted = (state: RootState) => state.todos.completed;
 export const selectUncompleted = (state: RootState) => {
   return state.todos.todos.filter((todo) => !todo.completed);
+};
+export const selectTodoById = (state: RootState, id: string) => {
+  state.todos.todos.find((todo) => todo.id === id);
 };
 export default todosSlice.reducer;
