@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
   },
   actionButtonText: {
     fontFamily: "Satoshi-Bold",
-    color: todoColors.backgorund,
+    color: todoColors.background,
     fontSize: 16,
     fontWeight: "bold",
   },
