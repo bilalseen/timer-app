@@ -8,9 +8,24 @@ interface Todo {
 }
 
 export default function parseNoteData(todos: Todo[]) {
-  const filteredNotes = [...todos].sort((a, b) => {
-    return a.date > b.date ? -1 : a.date < b.date ? 1 : 0;
+  const date = new Date();
+  const pastedTodos = todos.filter((todo) => {
+    return todo.date < date.toISOString();
   });
+
+  const notPastedTodos = todos.filter((todo) => {
+    return todo.date >= date.toISOString();
+  });
+
+  const parsedPastedTodo = [...pastedTodos].sort((a, b) => {
+    return b.date.localeCompare(a.date);
+  });
+
+  const parsedNotPastedTodo = [...notPastedTodos].sort((a, b) => {
+    return a.date.localeCompare(b.date);
+  });
+
+  const filteredNotes = [...parsedNotPastedTodo, ...parsedPastedTodo];
 
   return filteredNotes;
 }
