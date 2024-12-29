@@ -19,8 +19,10 @@ import {
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
-import { toggleCompleteTodoStatus } from "../../redux/todoSlice";
+import { deleteTodo, toggleCompleteTodoStatus } from "../../redux/todoSlice";
 import formattedDate from "../../utils/formatDate";
+import DeleteNoteModal from "../Modals/DeleteNoteModal";
+import ToastMessage from "../../feedback/ToastMessage";
 
 interface TodoCardProps {
   item: {
@@ -37,7 +39,8 @@ const Card: React.FC<TodoCardProps> = ({ item }) => {
   const navigation = useNavigation<any>();
   const [cardMenuStatus, setCardMenuStatus] = React.useState<boolean>(false);
   const [isCompleted, setIsCompleted] = React.useState<boolean>(item.completed);
-
+  const [isDeleteModalVisible, setDeleteModalVisible] =
+    React.useState<boolean>(false);
   const dispatch = useDispatch();
   const toggleCardMenu = () => {
     setCardMenuStatus(!cardMenuStatus);
@@ -58,6 +61,19 @@ const Card: React.FC<TodoCardProps> = ({ item }) => {
 
   const handleNavigateToTodoDetailForEdit = () => {
     navigation.navigate("TodoDetail", { itemId: item.id, isEditing: true });
+  };
+
+  const toggleDeleteModal = () => {
+    setDeleteModalVisible(!isDeleteModalVisible);
+  };
+
+  const handleDelete = () => {
+    dispatch(deleteTodo(item.id));
+    ToastMessage({
+      type: "success",
+      text1: "Note deleted successfully!",
+      textColor: todoColors.success,
+    });
   };
 
   const getBackgroundColorBasedOnDate = () => {
@@ -109,7 +125,12 @@ const Card: React.FC<TodoCardProps> = ({ item }) => {
               />
             </MenuTrigger>
             <MenuOptions customStyles={menuStyles}>
-              <MenuOption onSelect={handleNavigateToTodoDetailForEdit}>
+              <MenuOption
+                onSelect={() => {
+                  handleNavigateToTodoDetailForEdit();
+                  toggleCardMenu();
+                }}
+              >
                 <View style={styles.menuOption}>
                   <MaterialIcons
                     name="edit"
@@ -126,7 +147,12 @@ const Card: React.FC<TodoCardProps> = ({ item }) => {
                   </Text>
                 </View>
               </MenuOption>
-              <MenuOption onSelect={() => null}>
+              <MenuOption
+                onSelect={() => {
+                  toggleDeleteModal();
+                  toggleCardMenu();
+                }}
+              >
                 <View style={styles.menuOption}>
                   <MaterialIcons
                     name="delete"
@@ -198,6 +224,11 @@ const Card: React.FC<TodoCardProps> = ({ item }) => {
           </Text>
         </View>
       </Pressable>
+      <DeleteNoteModal
+        visible={isDeleteModalVisible}
+        onClose={toggleDeleteModal}
+        deleteNote={handleDelete}
+      />
     </MenuProvider>
   );
 };
