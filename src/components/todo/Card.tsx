@@ -52,8 +52,12 @@ const Card: React.FC<TodoCardProps> = ({ item }) => {
     setIsCompleted(item.completed);
   }, [item.completed]);
 
-  const handleNavigateToNoteDetail = () => {
+  const handleNavigateToTodoDetail = () => {
     navigation.navigate("TodoDetail", { itemId: item.id });
+  };
+
+  const handleNavigateToTodoDetailForEdit = () => {
+    navigation.navigate("TodoDetail", { itemId: item.id, isEditing: true });
   };
 
   const getBackgroundColorBasedOnDate = () => {
@@ -93,7 +97,7 @@ const Card: React.FC<TodoCardProps> = ({ item }) => {
           },
         ]}
         onLongPress={toggleCardMenu}
-        onPress={handleNavigateToNoteDetail}
+        onPress={handleNavigateToTodoDetail}
       >
         <View style={styles.menuContainer}>
           <Menu opened={cardMenuStatus} onBackdropPress={toggleCardMenu}>
@@ -105,7 +109,7 @@ const Card: React.FC<TodoCardProps> = ({ item }) => {
               />
             </MenuTrigger>
             <MenuOptions customStyles={menuStyles}>
-              <MenuOption onSelect={() => null}>
+              <MenuOption onSelect={handleNavigateToTodoDetailForEdit}>
                 <View style={styles.menuOption}>
                   <MaterialIcons
                     name="edit"
