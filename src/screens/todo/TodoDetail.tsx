@@ -29,18 +29,16 @@ interface Todo {
 type RouteParams = {
   params: {
     itemId: string;
-    openModal?: boolean;
+    isEditing?: boolean;
   };
 };
 
 const TodoDetail = () => {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<RouteParams>>();
-  const { itemId, openModal } = route.params;
+  const { itemId, isEditing } = route.params;
 
   const dispatch = useDispatch();
-
-  console.log("itemId: " + itemId);
 
   const todo = useSelector((state: { todos: { todos: Todo[] } }) =>
     state.todos.todos.find((todo: Todo) => todo.id === itemId)
@@ -50,7 +48,9 @@ const TodoDetail = () => {
     setEditModStatus(!editModStatus);
   };
 
-  const [editModStatus, setEditModStatus] = React.useState<boolean>(false);
+  const [editModStatus, setEditModStatus] = React.useState<boolean>(
+    isEditing ? isEditing : false
+  );
 
   const updateTodo = (values: { title: string; content: string }) => {
     dispatch(
