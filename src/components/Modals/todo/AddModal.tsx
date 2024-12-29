@@ -17,6 +17,7 @@ import ToastMessage from "../../../feedback/ToastMessage";
 import CalendarPicker from "react-native-calendar-picker";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import todoColors from "../../../theme/todo/colors";
+import formattedDate from "../../../utils/formatDate";
 
 interface ModalProps {
   addNoteModalVisible: boolean;
@@ -175,7 +176,15 @@ const AddModal: React.FC<ModalProps> = ({
                   {date ? (
                     <>
                       <Text style={styles.imagePickerText}>
-                        Selected Date: {date}
+                        Selected Date:{" "}
+                        {new Date(date).toLocaleString("en-GB", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          hour12: false,
+                        })}
                       </Text>
                       <TouchableOpacity
                         onPress={() => setCalendarVisible(true)}
