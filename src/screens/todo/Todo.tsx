@@ -63,7 +63,12 @@ const Todo = () => {
   return (
     <ScrollView
       style={styles.container}
-      contentContainerStyle={{ alignItems: "center", gap: 15 }}
+      contentContainerStyle={{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 15,
+      }}
     >
       <StatusBar
         barStyle={"light-content"}
@@ -121,12 +126,24 @@ const Todo = () => {
             ))}
           </View>
         ) : (
-          <TouchableOpacity
-            onPress={() => null}
-            style={styles.calendarControlButtonContainer}
-          >
-            <Text style={styles.imagePickerText}>Add Todo</Text>
-          </TouchableOpacity>
+          <View>
+            <Text
+              style={[
+                styles.firstTitleText,
+                {
+                  textAlign: "center",
+                },
+              ]}
+            >
+              You have no task to do for today. Let's add one!
+            </Text>
+            <TouchableOpacity
+              onPress={() => null}
+              style={styles.calendarControlButtonContainer}
+            >
+              <Text style={styles.imagePickerText}>Add Todo</Text>
+            </TouchableOpacity>
+          </View>
         )}
         {completedTodos.length > 0 && (
           <View style={styles.todosContainer}>
