@@ -3,7 +3,6 @@ import {
   Text,
   StyleSheet,
   StatusBar,
-  FlatList,
   TouchableOpacity,
   ScrollView,
 } from "react-native";
@@ -11,11 +10,15 @@ import React, { useEffect, useState } from "react";
 import todoColors from "../../theme/todo/colors";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import Card from "../../components/todo/Card";
-import { useSelector } from "react-redux";
-import { selectCompleted, selectUncompleted } from "../../redux/todoSlice";
-import { MaterialIcons } from "@expo/vector-icons";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteAllCompleted,
+  selectCompleted,
+  selectUncompleted,
+} from "../../redux/todoSlice";
 import AddModal from "../../components/Modals/todo/AddModal";
 import parseTodoData from "../../utils/parseTodoData";
+import DeleteNoteModal from "../../components/Modals/DeleteNoteModal";
 
 interface Todo {
   id: string;
@@ -30,12 +33,24 @@ const Todo = () => {
   const [completedTodos, setCompletedTodos] = useState<Todo[]>([]);
   const [unCompletedTodos, setUnCompletedTodos] = useState<Todo[]>([]);
   const [addNoteModalVisible, setAddNoteModalVisible] = useState(false);
+  const [deleteAllModalVisible, setDeleteAllModalVisible] =
+    useState<boolean>(false);
 
   const unComplete = useSelector(selectUncompleted);
   const completed = useSelector(selectCompleted);
 
+  const dispatch = useDispatch();
+
   const toggleAddModal = () => {
     setAddNoteModalVisible(!addNoteModalVisible);
+  };
+
+  const toggleDeleteModal = () => {
+    setDeleteAllModalVisible(!deleteAllModalVisible);
+  };
+
+  const handleDelete = () => {
+    dispatch(deleteAllCompleted());
   };
 
   useEffect(() => {
@@ -98,31 +113,34 @@ const Todo = () => {
             <Card item={item} key={index} />
           ))}
         </View>
-        <View style={styles.todosContainer}>
-          <View style={styles.todoTitleContainer}>
-            <Text style={styles.todoTitle}>
-              Task to do - {unCompletedTodos?.length}
-            </Text>
-            <TouchableOpacity
-              style={styles.moreActionButtonContainer}
-              onPress={() => null}
-            >
-              <MaterialIcons
-                name="more-horiz"
-                size={24}
-                color={todoColors.textPrimary}
-              />
-            </TouchableOpacity>
+        {completedTodos.length > 0 && (
+          <View style={styles.todosContainer}>
+            <View style={styles.todoTitleContainer}>
+              <Text style={styles.todoTitle}>
+                Task to do - {completed?.length}
+              </Text>
+              <TouchableOpacity
+                style={styles.addTodoButtonContainer}
+                onPress={toggleDeleteModal}
+              >
+                <Text style={styles.addTodoButtonText}>Delete All</Text>
+              </TouchableOpacity>
+            </View>
+            {completedTodos.map((item, index) => (
+              <Card item={item} key={index} />
+            ))}
           </View>
-          {completedTodos.map((item, index) => (
-            <Card item={item} key={index} />
-          ))}
-        </View>
+        )}
       </View>
       <View style={{ height: 100 }}></View>
       <AddModal
         addNoteModalVisible={addNoteModalVisible}
         toggleAddModal={toggleAddModal}
+      />
+      <DeleteNoteModal
+        visible={deleteAllModalVisible}
+        onClose={toggleDeleteModal}
+        deleteNote={handleDelete}
       />
     </ScrollView>
   );
