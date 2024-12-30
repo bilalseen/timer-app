@@ -11,8 +11,12 @@ import React, { useEffect, useState } from "react";
 import todoColors from "../../theme/todo/colors";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import Card from "../../components/todo/Card";
-import { useSelector } from "react-redux";
-import { selectCompleted, selectUncompleted } from "../../redux/todoSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteAllCompleteTodo,
+  selectCompleted,
+  selectUncompleted,
+} from "../../redux/todoSlice";
 import { MaterialIcons } from "@expo/vector-icons";
 import AddModal from "../../components/Modals/todo/AddModal";
 import parseTodoData from "../../utils/parseTodoData";
@@ -31,11 +35,16 @@ const Todo = () => {
   const [unCompletedTodos, setUnCompletedTodos] = useState<Todo[]>([]);
   const [addNoteModalVisible, setAddNoteModalVisible] = useState(false);
 
+  const dispatch = useDispatch();
   const unComplete = useSelector(selectUncompleted);
   const completed = useSelector(selectCompleted);
 
   const toggleAddModal = () => {
     setAddNoteModalVisible(!addNoteModalVisible);
+  };
+
+  const handleDeleteAllCompletedTodo = () => {
+    dispatch(deleteAllCompleteTodo());
   };
 
   useEffect(() => {
@@ -104,14 +113,12 @@ const Todo = () => {
               Task to do - {completedTodos?.length}
             </Text>
             <TouchableOpacity
-              style={styles.moreActionButtonContainer}
-              onPress={() => null}
+              style={styles.deleteAllCompletedButton}
+              onPress={handleDeleteAllCompletedTodo}
             >
-              <MaterialIcons
-                name="more-horiz"
-                size={24}
-                color={todoColors.textPrimary}
-              />
+              <Text style={styles.deleteAllCompletedButtonText}>
+                Delete All
+              </Text>
             </TouchableOpacity>
           </View>
           {completedTodos.map((item, index) => (
@@ -172,7 +179,16 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "bold",
   },
-  moreActionButtonContainer: {},
+  deleteAllCompletedButton: {
+    padding: 10,
+    backgroundColor: todoColors.primary,
+    borderRadius: 10,
+  },
+  deleteAllCompletedButtonText: {
+    color: todoColors.textSecondary,
+    fontSize: 12,
+    fontWeight: "bold",
+  },
 });
 
 export default Todo;
