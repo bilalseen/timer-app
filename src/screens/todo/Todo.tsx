@@ -20,6 +20,7 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import AddModal from "../../components/Modals/todo/AddModal";
 import parseTodoData from "../../utils/parseTodoData";
+import DeleteModal from "../../components/Modals/todo/DeleteModal";
 
 interface Todo {
   id: string;
@@ -34,6 +35,7 @@ const Todo = () => {
   const [completedTodos, setCompletedTodos] = useState<Todo[]>([]);
   const [unCompletedTodos, setUnCompletedTodos] = useState<Todo[]>([]);
   const [addNoteModalVisible, setAddNoteModalVisible] = useState(false);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
   const dispatch = useDispatch();
   const unComplete = useSelector(selectUncompleted);
@@ -41,6 +43,10 @@ const Todo = () => {
 
   const toggleAddModal = () => {
     setAddNoteModalVisible(!addNoteModalVisible);
+  };
+
+  const toggleDeleteModal = () => {
+    setDeleteModalVisible(!deleteModalVisible);
   };
 
   const handleDeleteAllCompletedTodo = () => {
@@ -114,7 +120,7 @@ const Todo = () => {
             </Text>
             <TouchableOpacity
               style={styles.deleteAllCompletedButton}
-              onPress={handleDeleteAllCompletedTodo}
+              onPress={toggleDeleteModal}
             >
               <Text style={styles.deleteAllCompletedButtonText}>
                 Delete All
@@ -130,6 +136,13 @@ const Todo = () => {
       <AddModal
         addNoteModalVisible={addNoteModalVisible}
         toggleAddModal={toggleAddModal}
+      />
+      <DeleteModal
+        deleteModalVisible={deleteModalVisible}
+        toggleDeleteModal={toggleDeleteModal}
+        deleteTodo={handleDeleteAllCompletedTodo}
+        title={"Delete All Completed Task"}
+        content={"Are you sure you want to delete all completed task?"}
       />
     </ScrollView>
   );
