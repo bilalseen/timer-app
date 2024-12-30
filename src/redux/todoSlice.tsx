@@ -139,11 +139,20 @@ const todosSlice = createSlice({
         (todo) => todo.id !== action.payload
       );
     },
+
+    deleteAllCompleteTodo: (state) => {
+      state.completed = [];
+    },
   },
 });
 
-export const { addTodo, editTodo, toggleCompleteTodoStatus, deleteTodo } =
-  todosSlice.actions;
+export const {
+  addTodo,
+  editTodo,
+  toggleCompleteTodoStatus,
+  deleteTodo,
+  deleteAllCompleteTodo,
+} = todosSlice.actions;
 
 export const selectTodos = (state: RootState) => state.todos.todos;
 export const selectCompleted = (state: RootState) => state.todos.completed;
