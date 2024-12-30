@@ -53,6 +53,15 @@ const Todo = () => {
     dispatch(deleteAllCompleteTodo());
   };
 
+  const handleCalculateProgress = () => {
+    const result =
+      (completedTodos.length /
+        (completedTodos.length + unCompletedTodos.length)) *
+      100;
+
+    return Number.isNaN(result) ? 0 : result;
+  };
+
   useEffect(() => {
     setCompletedTodos(completed);
     setUnCompletedTodos(parseTodoData(unComplete));
@@ -70,11 +79,7 @@ const Todo = () => {
       <AnimatedCircularProgress
         size={150}
         width={13}
-        fill={
-          (completedTodos.length /
-            (completedTodos.length + unCompletedTodos.length)) *
-          100
-        }
+        fill={handleCalculateProgress()}
         rotation={0}
         duration={3000}
         tintColor={todoColors.background}
