@@ -23,6 +23,7 @@ import { deleteTodo, toggleCompleteTodoStatus } from "../../redux/todoSlice";
 import formattedDate from "../../utils/formatDate";
 import DeleteNoteModal from "../Modals/DeleteNoteModal";
 import ToastMessage from "../../feedback/ToastMessage";
+import DeleteModal from "../Modals/todo/DeleteModal";
 
 interface TodoCardProps {
   item: {
@@ -224,10 +225,12 @@ const Card: React.FC<TodoCardProps> = ({ item }) => {
           </Text>
         </View>
       </Pressable>
-      <DeleteNoteModal
-        visible={isDeleteModalVisible}
-        onClose={toggleDeleteModal}
-        deleteNote={handleDelete}
+      <DeleteModal
+        deleteModalVisible={isDeleteModalVisible}
+        toggleDeleteModal={toggleDeleteModal}
+        deleteTodo={handleDelete}
+        title={"Delete " + item.title}
+        content={"Are you sure you want to delete this todo?"}
       />
     </MenuProvider>
   );
