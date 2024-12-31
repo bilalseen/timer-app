@@ -17,7 +17,7 @@ import ToastMessage from "../../../feedback/ToastMessage";
 import CalendarPicker from "react-native-calendar-picker";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import todoColors from "../../../theme/todo/colors";
-import formattedDate from "../../../utils/formatDate";
+import { v4 as uuidv4 } from "uuid";
 
 interface ModalProps {
   addNoteModalVisible: boolean;
@@ -56,6 +56,7 @@ const AddModal: React.FC<ModalProps> = ({
     if (todo.title.trim() && todo.content.trim()) {
       const newTodo = {
         ...todo,
+        id: uuidv4(),
         date: date,
         isEdited: false,
       };
