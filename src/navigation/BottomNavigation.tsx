@@ -16,6 +16,7 @@ import {
 } from "../redux/notesSlice";
 import Todo from "../screens/todo/Todo";
 import todoColors from "../theme/todo/colors";
+import { setAsyncStorageTodoData } from "../redux/todoSlice";
 
 const BottomNavigation = () => {
   const dispatch = useDispatch();
@@ -37,6 +38,15 @@ const BottomNavigation = () => {
     }
   };
 
+  const getTodoData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("todos");
+      return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch (e) {
+      // error reading value
+    }
+  };
+
   useEffect(() => {
     (async () => {
       const data = await getData();
@@ -47,6 +57,11 @@ const BottomNavigation = () => {
       const categories = await getCategories();
       if (categories) {
         dispatch(setAsyncStorageCategories(categories));
+      }
+
+      const todoData = await getTodoData();
+      if (todoData) {
+        dispatch(setAsyncStorageTodoData(todoData));
       }
     })();
   }, []);
