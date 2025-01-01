@@ -36,6 +36,15 @@ const storeTodoData = async (value: Todo[]) => {
   } catch (e) {}
 };
 
+const storeCompletedTodoData = async (value: Todo[]) => {
+  try {
+    const jsonValue = JSON.stringify(value);
+    await AsyncStorage.setItem("completedTodos", jsonValue);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 const todosSlice = createSlice({
   name: "todos",
   initialState,
@@ -69,21 +78,12 @@ const todosSlice = createSlice({
         } else {
           todo.completed = true;
           state.todos = state.todos.filter(
-            (uncompletedTodo) => uncompletedTodo.id !== action.payload
+            (todo) => todo.id !== action.payload
           );
           state.completed.push({ ...todo });
         }
-      } else {
-        const completedTodo = state.completed.find(
-          (completedTodo) => completedTodo.id === action.payload
-        );
-        if (completedTodo) {
-          completedTodo.completed = false;
-          state.completed = state.completed.filter(
-            (completedTodo) => completedTodo.id !== action.payload
-          );
-          state.todos.push({ ...completedTodo });
-        }
+        storeTodoData(state.todos);
+        storeCompletedTodoData(state.completed);
       }
     },
     deleteTodo: (state, action: PayloadAction<string>) => {
@@ -92,14 +92,21 @@ const todosSlice = createSlice({
         (todo) => todo.id !== action.payload
       );
       storeTodoData(state.todos);
+      storeCompletedTodoData(state.completed);
     },
 
     deleteAllCompleteTodo: (state) => {
       state.completed = [];
-      storeTodoData(state.todos);
+      storeCompletedTodoData(state.completed);
     },
     setAsyncStorageTodoData: (state, action: PayloadAction<Todo[]>) => {
       state.todos = action.payload;
+    },
+    setAsyncStorageCompletedTodoData: (
+      state,
+      action: PayloadAction<Todo[]>
+    ) => {
+      state.completed = action.payload;
     },
   },
 });
@@ -111,6 +118,7 @@ export const {
   deleteTodo,
   deleteAllCompleteTodo,
   setAsyncStorageTodoData,
+  setAsyncStorageCompletedTodoData,
 } = todosSlice.actions;
 
 export const selectTodos = (state: RootState) => state.todos.todos;
