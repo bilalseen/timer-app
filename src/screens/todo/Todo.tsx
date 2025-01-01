@@ -21,6 +21,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import AddModal from "../../components/Modals/todo/AddModal";
 import parseTodoData from "../../utils/parseTodoData";
 import DeleteModal from "../../components/Modals/todo/DeleteModal";
+import getBackMessage from "../../utils/getBackMessage";
 
 interface Todo {
   id: string;
@@ -36,6 +37,7 @@ const Todo = () => {
   const [unCompletedTodos, setUnCompletedTodos] = useState<Todo[]>([]);
   const [addNoteModalVisible, setAddNoteModalVisible] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [message, setMessage] = useState<string>("");
 
   const dispatch = useDispatch();
   const unComplete = useSelector(selectUncompleted);
@@ -55,16 +57,24 @@ const Todo = () => {
 
   const handleCalculateProgress = () => {
     const result =
-      (completedTodos.length /
-        (completedTodos.length + unCompletedTodos.length)) *
-      100;
+      (completed.length / (completed.length + unComplete.length)) * 100;
 
     return Number.isNaN(result) ? 0 : result;
   };
 
-  useEffect(() => {
+  const updateTodos = () => {
     setCompletedTodos(completed);
     setUnCompletedTodos(parseTodoData(unComplete));
+  };
+
+  const updateMessage = (progress: number) => {
+    setMessage(getBackMessage(progress));
+  };
+
+  useEffect(() => {
+    updateTodos();
+    const progress = handleCalculateProgress();
+    updateMessage(progress);
   }, [unComplete, completed]);
 
   return (
@@ -98,45 +108,56 @@ const Todo = () => {
         )}
       </AnimatedCircularProgress>
       <View>
-        <Text style={styles.firstTitleText}>Your're doing great,</Text>
-        <Text style={styles.secondTitleText}>your're halfway there!</Text>
+        <Text style={styles.progressText}>{message}</Text>
       </View>
       <View style={[styles.todosContainer, { gap: 30 }]}>
-        <View style={styles.todosContainer}>
-          <View style={styles.todoTitleContainer}>
-            <Text style={styles.todoTitle}>
-              Task to do - {unCompletedTodos?.length}
-            </Text>
-            <TouchableOpacity
-              style={styles.addTodoButtonContainer}
-              onPress={toggleAddModal}
-            >
-              <Text style={styles.addTodoButtonText}>Add Task</Text>
-            </TouchableOpacity>
-          </View>
-          {unCompletedTodos.map((item, index) => (
-            <Card item={item} key={index} />
-          ))}
-        </View>
-        <View style={styles.todosContainer}>
-          <View style={styles.todoTitleContainer}>
-            <Text style={styles.todoTitle}>
-              Task to do - {completedTodos?.length}
-            </Text>
-            <TouchableOpacity
-              style={styles.deleteAllCompletedButton}
-              onPress={toggleDeleteModal}
-            >
-              <Text style={styles.deleteAllCompletedButtonText}>
-                Delete All
+        {unCompletedTodos.length > 0 ? (
+          <View style={styles.todosContainer}>
+            <View style={styles.todoTitleContainer}>
+              <Text style={styles.todoTitle}>
+                Task to do - {unCompletedTodos?.length}
               </Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.addTodoButtonContainer}
+                onPress={toggleAddModal}
+              >
+                <Text style={styles.addTodoButtonText}>Add Task</Text>
+              </TouchableOpacity>
+            </View>
+            {unCompletedTodos.map((item, index) => (
+              <Card item={item} key={index} />
+            ))}
           </View>
-          {completedTodos.map((item, index) => (
-            <Card item={item} key={index} />
-          ))}
-        </View>
+        ) : (
+          <TouchableOpacity
+            style={styles.firstAddTodoButtonContainer}
+            onPress={toggleAddModal}
+          >
+            <Text style={styles.firstAddTodoButtonText}>Add Task</Text>
+          </TouchableOpacity>
+        )}
+        {completedTodos.length > 0 && (
+          <View style={styles.todosContainer}>
+            <View style={styles.todoTitleContainer}>
+              <Text style={styles.todoTitle}>
+                Task to do - {completedTodos?.length}
+              </Text>
+              <TouchableOpacity
+                style={styles.deleteAllCompletedButton}
+                onPress={toggleDeleteModal}
+              >
+                <Text style={styles.deleteAllCompletedButtonText}>
+                  Delete All
+                </Text>
+              </TouchableOpacity>
+            </View>
+            {completedTodos.map((item, index) => (
+              <Card item={item} key={index} />
+            ))}
+          </View>
+        )}
       </View>
+
       <View style={{ height: 100 }}></View>
       <AddModal
         addNoteModalVisible={addNoteModalVisible}
@@ -167,14 +188,24 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: todoColors.textPrimary,
   },
-  firstTitleText: {
+  progressText: {
     fontSize: 24,
     fontWeight: "bold",
     color: todoColors.textPrimary,
+    textAlign: "center",
   },
-  secondTitleText: {
-    fontSize: 24,
-    color: todoColors.textPrimary,
+  firstAddTodoButtonContainer: {
+    borderColor: todoColors.primary,
+    borderWidth: 1,
+    borderStyle: "dashed",
+    borderRadius: 10,
+  },
+  firstAddTodoButtonText: {
+    color: todoColors.primary,
+    fontSize: 16,
+    fontWeight: "bold",
+    padding: 10,
+    textAlign: "center",
   },
   todosContainer: { flex: 1, width: "100%", gap: 20 },
   todoTitleContainer: {
