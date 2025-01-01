@@ -57,11 +57,18 @@ const Card: React.FC<TodoCardProps> = ({ item }) => {
   }, [item.completed]);
 
   const handleNavigateToTodoDetail = () => {
-    navigation.navigate("TodoDetail", { itemId: item.id });
+    navigation.navigate("TodoDetail", {
+      itemId: item.id,
+      isCompleted: item.completed,
+    });
   };
 
   const handleNavigateToTodoDetailForEdit = () => {
-    navigation.navigate("TodoDetail", { itemId: item.id, isEditing: true });
+    navigation.navigate("TodoDetail", {
+      itemId: item.id,
+      isEditing: true,
+      isCompleted: item.completed,
+    });
   };
 
   const toggleDeleteModal = () => {
