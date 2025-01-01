@@ -16,7 +16,10 @@ import {
 } from "../redux/notesSlice";
 import Todo from "../screens/todo/Todo";
 import todoColors from "../theme/todo/colors";
-import { setAsyncStorageTodoData } from "../redux/todoSlice";
+import {
+  setAsyncStorageCompletedTodoData,
+  setAsyncStorageTodoData,
+} from "../redux/todoSlice";
 
 const BottomNavigation = () => {
   const dispatch = useDispatch();
@@ -41,9 +44,18 @@ const BottomNavigation = () => {
   const getTodoData = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem("todos");
-      return jsonValue != null ? JSON.parse(jsonValue) : null;
+      return jsonValue != null ? JSON.parse(jsonValue) : [];
     } catch (e) {
-      // error reading value
+      console.log(e);
+    }
+  };
+
+  const getCompletedTodoData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("completedTodos");
+      return jsonValue != null ? JSON.parse(jsonValue) : [];
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -62,6 +74,11 @@ const BottomNavigation = () => {
       const todoData = await getTodoData();
       if (todoData) {
         dispatch(setAsyncStorageTodoData(todoData));
+      }
+
+      const completedTodoData = await getCompletedTodoData();
+      if (todoData) {
+        dispatch(setAsyncStorageCompletedTodoData(completedTodoData));
       }
     })();
   }, []);
