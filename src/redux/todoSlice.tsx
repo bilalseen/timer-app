@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 import { RootState } from "./store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { setAsyncStorageData } from "./notesSlice";
 
 interface Todo {
   id: string;
@@ -27,6 +29,13 @@ const initialState: TodosState = {
   completed: [],
 };
 
+const storeTodoData = async (value: Todo[]) => {
+  try {
+    const jsonValue = JSON.stringify(value);
+    await AsyncStorage.setItem("todos", jsonValue);
+  } catch (e) {}
+};
+
 const todosSlice = createSlice({
   name: "todos",
   initialState,
@@ -35,6 +44,7 @@ const todosSlice = createSlice({
       const newId = uuidv4();
       const newTodo = { id: newId, ...action.payload };
       state.todos.push(newTodo);
+      storeTodoData(state.todos);
     },
     editTodo: (state, action: PayloadAction<UpadeteTodo>) => {
       const { id, title, content } = action.payload;
@@ -45,6 +55,7 @@ const todosSlice = createSlice({
         todo.isEdited = true;
         todo.date = new Date().toISOString();
       }
+      storeTodoData(state.todos);
     },
     toggleCompleteTodoStatus: (state, action: PayloadAction<string>) => {
       const todo = state.todos.find((todo) => todo.id === action.payload);
@@ -80,10 +91,15 @@ const todosSlice = createSlice({
       state.completed = state.completed.filter(
         (todo) => todo.id !== action.payload
       );
+      storeTodoData(state.todos);
     },
 
     deleteAllCompleteTodo: (state) => {
       state.completed = [];
+      storeTodoData(state.todos);
+    },
+    setAsyncStorageTodoData: (state, action: PayloadAction<Todo[]>) => {
+      state.todos = action.payload;
     },
   },
 });
@@ -94,6 +110,7 @@ export const {
   toggleCompleteTodoStatus,
   deleteTodo,
   deleteAllCompleteTodo,
+  setAsyncStorageTodoData,
 } = todosSlice.actions;
 
 export const selectTodos = (state: RootState) => state.todos.todos;
