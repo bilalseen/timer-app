@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import todoColors from "../../theme/todo/colors";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import Card from "../../components/todo/Card";
@@ -53,12 +53,12 @@ const Todo = () => {
     dispatch(deleteAllCompleteTodo());
   };
 
-  const handleCalculateProgress = () => {
+  const progress = useMemo(() => {
     const result =
       (completed.length / (completed.length + unComplete.length)) * 100;
 
     return Number.isNaN(result) ? 0 : result;
-  };
+  }, [completed, unComplete]);
 
   const updateTodos = () => {
     setCompletedTodos(completed);
@@ -71,7 +71,6 @@ const Todo = () => {
 
   useEffect(() => {
     updateTodos();
-    const progress = handleCalculateProgress();
     updateMessage(progress);
   }, [unComplete, completed]);
 
@@ -84,7 +83,7 @@ const Todo = () => {
       <AnimatedCircularProgress
         size={150}
         width={13}
-        fill={handleCalculateProgress()}
+        fill={progress}
         rotation={0}
         duration={3000}
         tintColor={todoColors.background}
