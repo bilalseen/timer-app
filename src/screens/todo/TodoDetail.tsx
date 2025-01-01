@@ -30,18 +30,23 @@ type RouteParams = {
   params: {
     itemId: string;
     isEditing?: boolean;
+    isCompleted?: boolean;
   };
 };
 
 const TodoDetail = () => {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<RouteParams>>();
-  const { itemId, isEditing } = route.params;
+  const { itemId, isEditing, isCompleted } = route.params;
 
   const dispatch = useDispatch();
+  console.log("itemId: " + itemId);
 
-  const todo = useSelector((state: { todos: { todos: Todo[] } }) =>
-    state.todos.todos.find((todo: Todo) => todo.id === itemId)
+  const todo = useSelector(
+    (state: { todos: { todos: Todo[]; completed: Todo[] } }) =>
+      !isCompleted
+        ? state.todos.todos.find((todo: Todo) => todo.id === itemId)
+        : state.todos.completed.find((todo: Todo) => todo.id === itemId)
   );
 
   const toggleEditMode = () => {
