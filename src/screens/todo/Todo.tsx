@@ -3,7 +3,6 @@ import {
   Text,
   StyleSheet,
   StatusBar,
-  FlatList,
   TouchableOpacity,
   ScrollView,
 } from "react-native";
@@ -17,7 +16,6 @@ import {
   selectCompleted,
   selectUncompleted,
 } from "../../redux/todoSlice";
-import { MaterialIcons } from "@expo/vector-icons";
 import AddModal from "../../components/Modals/todo/AddModal";
 import parseTodoData from "../../utils/parseTodoData";
 import DeleteModal from "../../components/Modals/todo/DeleteModal";
