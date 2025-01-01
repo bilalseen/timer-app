@@ -80,10 +80,7 @@ const Todo = () => {
       style={styles.container}
       contentContainerStyle={{ alignItems: "center", gap: 15 }}
     >
-      <StatusBar
-        barStyle={"light-content"}
-        backgroundColor={todoColors.background}
-      />
+      <StatusBar hidden={true} />
       <AnimatedCircularProgress
         size={150}
         width={13}
@@ -177,6 +174,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: todoColors.background,
     padding: 20,
+    paddingTop: 50,
   },
   progressBarTextContainer: {
     justifyContent: "center",
