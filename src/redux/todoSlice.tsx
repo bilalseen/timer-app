@@ -84,6 +84,19 @@ const todosSlice = createSlice({
         }
         storeTodoData(state.todos);
         storeCompletedTodoData(state.completed);
+      } else {
+        const completedTodo = state.completed.find(
+          (todo) => todo.id === action.payload
+        );
+        if (completedTodo) {
+          completedTodo.completed = false;
+          state.todos.push({ ...completedTodo });
+          state.completed = state.completed.filter(
+            (todo) => todo.id !== action.payload
+          );
+          storeTodoData(state.todos);
+          storeCompletedTodoData(state.completed);
+        }
       }
     },
     deleteTodo: (state, action: PayloadAction<string>) => {
