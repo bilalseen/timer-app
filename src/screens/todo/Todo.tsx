@@ -20,6 +20,7 @@ import AddModal from "../../components/Modals/todo/AddModal";
 import parseTodoData from "../../utils/parseTodoData";
 import DeleteModal from "../../components/Modals/todo/DeleteModal";
 import getBackMessage from "../../utils/getBackMessage";
+import LottieView from 'lottie-react-native';
 
 interface Todo {
   id: string;
@@ -36,6 +37,7 @@ const Todo = () => {
   const [addNoteModalVisible, setAddNoteModalVisible] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [message, setMessage] = useState<string>("");
+  const [animationStatus, setAnimationStatus] = useState<boolean>(false);
 
   const dispatch = useDispatch();
   const unComplete = useSelector(selectUncompleted);
@@ -69,6 +71,13 @@ const Todo = () => {
     setMessage(getBackMessage(progress));
   };
 
+  const handleAnimation = () => {
+    setAnimationStatus(true);
+    setTimeout(() => {
+      setAnimationStatus(false);
+    }, 3000);
+  }
+
   useEffect(() => {
     updateTodos();
     updateMessage(progress);
@@ -87,7 +96,7 @@ const Todo = () => {
         rotation={0}
         duration={3000}
         tintColor={todoColors.background}
-        onAnimationComplete={() => console.log("onAnimationComplete")}
+        onAnimationComplete={() => progress === 100 && handleAnimation()}
         backgroundColor={todoColors.primary}
         backgroundWidth={22}
         lineCap={"round"}
@@ -151,6 +160,15 @@ const Todo = () => {
           </View>
         )}
       </View>
+      {
+        animationStatus && (
+          <LottieView
+            source={require('../../assets/animations/celebration-animation.json')}
+            autoPlay
+            style={{ position: "absolute", flex: 1, top: -150, width: '100%', height: '100%' }}
+          />
+        )
+      }
       <View style={{ height: 120 }}></View>
       <AddModal
         addNoteModalVisible={addNoteModalVisible}
