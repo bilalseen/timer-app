@@ -169,6 +169,14 @@ const Todo = () => {
           />
         )
       }
+      {
+        completedTodos.length === 0 && unCompletedTodos.length === 0 && !animationStatus &&
+        <LottieView
+          source={require('../../assets/animations/empty-todo-home-animation.json')}
+          autoPlay
+          style={{ width: '100%', height: '100%' }}
+        />
+      }
       <View style={{ height: 120 }}></View>
       <AddModal
         addNoteModalVisible={addNoteModalVisible}
