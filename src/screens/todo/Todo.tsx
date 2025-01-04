@@ -151,8 +151,7 @@ const Todo = () => {
           </View>
         )}
       </View>
-
-      <View style={{ height: 100 }}></View>
+      <View style={{ height: 120 }}></View>
       <AddModal
         addNoteModalVisible={addNoteModalVisible}
         toggleAddModal={toggleAddModal}
