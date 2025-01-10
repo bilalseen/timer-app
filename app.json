@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "Timora",
+    "name": "Todo's",
     "slug": "staj_hafta_1_app",
     "version": "1.0.3",
     "orientation": "portrait",
-    "icon": "./src/assets/icon/icon.png",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/icon/adaptive-icon.png",
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#0D0714"
       },
       "package": "com.bilalseen.staj_hafta_1_app"
