@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, StatusBar } from 'react-native';
 import LottieView from 'lottie-react-native';
 import { useNavigation } from '@react-navigation/native';
 import Colors from '../theme/todo/colors';
@@ -17,6 +17,7 @@ const Splash = () => {
 
     return (
         <View style={styles.container}>
+            <StatusBar hidden={true} />
             <LottieView
                 style={{ width: 400, height: 400 }}
                 source={require('../assets/animations/splash-loading-animation.json')}
