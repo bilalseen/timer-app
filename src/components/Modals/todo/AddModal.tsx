@@ -87,6 +87,18 @@ const AddModal: React.FC<ModalProps> = ({
     }
   };
 
+  const handleClearFields = () => {
+    setTodo({
+      id: "",
+      title: "",
+      content: "",
+      date: "",
+      isEdited: false,
+      completed: false,
+    });
+    setDate("");
+  }
+
   const handleConfirmTime = (selectedTime: Date) => {
     const selectedDate = new Date(date);
     selectedDate.setHours(selectedTime.getHours());
@@ -163,12 +175,14 @@ const AddModal: React.FC<ModalProps> = ({
                   <Text style={styles.modalTitle}>Add a new note</Text>
                   <TextInput
                     placeholder="Todo title..."
+                    value={todo.title}
                     onChangeText={(text) => setTodo({ ...todo, title: text })}
                     style={styles.inputText}
                     placeholderTextColor={todoColor.textPrimary}
                   />
                   <TextInput
                     placeholder="Todo content..."
+                    value={todo.content}
                     onChangeText={(text) => setTodo({ ...todo, content: text })}
                     style={styles.inputText}
                     placeholderTextColor={todoColor.textPrimary}
@@ -214,6 +228,7 @@ const AddModal: React.FC<ModalProps> = ({
                     <TouchableOpacity
                       onPressIn={() => {
                         toggleAddModal(false);
+                        handleClearFields();
                       }}
                       style={styles.actionButtonContainer}
                     >
