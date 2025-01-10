@@ -53,7 +53,7 @@ const AddModal: React.FC<ModalProps> = ({
   const dispatch = useDispatch();
 
   const handleAddNote = () => {
-    if (todo.title.trim() && todo.content.trim()) {
+    if (todo.title.trim() && todo.content.trim() && date) {
       const newTodo = {
         ...todo,
         id: uuidv4(),
