@@ -15,7 +15,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { formatDate } from "date-fns";
 import formattedDate from "../../utils/formatDate";
 import { Formik } from "formik";
-import { editTodo } from "../../redux/todoSlice";
+import { deleteTodo, editTodo } from "../../redux/todoSlice";
+import ToastMessage from "../../feedback/ToastMessage";
+import DeleteModal from "../../components/Modals/todo/DeleteModal";
 
 interface Todo {
   id: string;
@@ -39,8 +41,10 @@ const TodoDetail = () => {
   const route = useRoute<RouteProp<RouteParams>>();
   const { itemId, isEditing, isCompleted } = route.params;
 
+  const [isDeleteModalVisible, setDeleteModalVisible] =
+    React.useState<boolean>(false);
+
   const dispatch = useDispatch();
-  console.log("itemId: " + itemId);
 
   const todo = useSelector(
     (state: { todos: { todos: Todo[]; completed: Todo[] } }) =>
@@ -65,6 +69,20 @@ const TodoDetail = () => {
         content: values.content,
       })
     );
+  };
+
+  const toggleDeleteModal = () => {
+    setDeleteModalVisible(!isDeleteModalVisible);
+  };
+
+  const handleDelete = () => {
+    dispatch(deleteTodo(itemId));
+    ToastMessage({
+      type: "success",
+      text1: "Note deleted successfully!",
+      textColor: todoColors.success,
+    });
+    navigation.goBack();
   };
 
   return (
@@ -155,7 +173,7 @@ const TodoDetail = () => {
                 />
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => null}
+                onPress={toggleDeleteModal}
                 style={[styles.actionButtonContainer]}
               >
                 <MaterialIcons
@@ -194,6 +212,13 @@ const TodoDetail = () => {
           )}
         </>
       )}
+      <DeleteModal
+        deleteModalVisible={isDeleteModalVisible}
+        toggleDeleteModal={toggleDeleteModal}
+        deleteTodo={handleDelete}
+        title={"Delete " + todo?.title}
+        content={"Are you sure you want to delete this todo?"}
+      />
     </View>
   );
 };
